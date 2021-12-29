@@ -2,8 +2,7 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        Text(NSLocalizedString("ApplicationName", comment: ""))
-            .padding()
+        MainView()
     }
 }
 
