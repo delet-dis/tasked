@@ -1,0 +1,17 @@
+name: Tasked
+options:
+  bundleIdPrefix: com.delet-dis
+targets:
+  tasked:
+    type: application
+    platform: iOS
+    deploymentTarget: "14.0"
+    settings:
+      base:
+        INFOPLIST_FILE: tasked/Info.plist
+    configs:
+      Debug: debug
+      Beta: release
+      AppStore: release
+    sources:
+      - path: tasked/
