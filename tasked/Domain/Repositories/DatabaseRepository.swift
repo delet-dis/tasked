@@ -4,19 +4,23 @@ import UIKit
 final class DatabaseRepository: ToDoListItemDAO, ToDoListSubItemDAO {
     @Environment(\.managedObjectContext) private var viewContext
 
-    func getAllToDoListItems() {
+    func getAllToDoListItems() -> [ToDoListItem]? {
         do {
-            let items = try viewContext.fetch(ToDoListItem.fetchRequest())
+            return try viewContext.fetch(ToDoListItem.fetchRequest())
         } catch {
             print("Error getting ToDoListItems")
+
+            return nil
         }
     }
 
-    func getAllToDoListSubItems() {
+    func getAllToDoListSubItems() -> [ToDoListSubItem]? {
         do {
-            let subItems = try viewContext.fetch(ToDoListSubItem.fetchRequest())
+            return try viewContext.fetch(ToDoListSubItem.fetchRequest())
         } catch {
             print("Error getting ToDoListSubItems")
+
+            return nil
         }
     }
 

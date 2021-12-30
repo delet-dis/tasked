@@ -1,7 +1,7 @@
 import Foundation
 
 protocol ToDoListItemDAO {
-    func getAllToDoListItems()
+    func getAllToDoListItems() -> [ToDoListItem]?
 
     func createToDoListItem(_ task: String)
 
