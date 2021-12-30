@@ -2,7 +2,7 @@
 //  ToDoListSubItem+CoreDataProperties.swift
 //  tasked
 //
-//  Created by Igor Efimov on 29.12.2021.
+//  Created by Igor Efimov on 30.12.2021.
 //
 //
 
@@ -16,7 +16,6 @@ extension ToDoListSubItem {
         return NSFetchRequest<ToDoListSubItem>(entityName: "ToDoListSubItem")
     }
 
-    @NSManaged public var id: Int32
     @NSManaged public var task: String?
     @NSManaged public var isDone: Bool
 
