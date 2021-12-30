@@ -7,7 +7,8 @@ struct MainView: View {
 
     var body: some View {
         NavigationView {
-            List {}
+            List {
+            }
                 .navigationTitle(NSLocalizedString("ApplicationName", comment: ""))
         }
         .navigationViewStyle(StackNavigationViewStyle())
