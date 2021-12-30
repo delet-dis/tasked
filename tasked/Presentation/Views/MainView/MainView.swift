@@ -2,7 +2,7 @@ import SwiftUI
 
 struct MainView: View {
     init() {
-        UINavigationBar.appearance().largeTitleTextAttributes = [.font : UIFont(name: "TTFirsNeue-Bold", size: 32)!]
+        UINavigationBar.appearance().largeTitleTextAttributes = [.font: UIFont(name: "TTFirsNeue-Bold", size: 32)!]
     }
 
     var body: some View {
