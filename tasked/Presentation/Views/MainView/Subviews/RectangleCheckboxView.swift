@@ -10,8 +10,10 @@ struct RectangleCheckboxView: View {
                 .frame(width: 30, height: 30, alignment: .center)
 
             Image(systemName: "checkmark")
+                .resizable()
                 .renderingMode(.template)
                 .foregroundColor(.white)
+                .frame(width: 25, height: 20, alignment: .center)
                 .opacity(isActive ? 1 : 0)
         }
         .onTapGesture {
