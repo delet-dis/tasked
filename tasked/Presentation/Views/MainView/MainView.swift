@@ -7,8 +7,13 @@ struct MainView: View {
 
     var body: some View {
         NavigationView {
-            List {
+            VStack{
+                ListCellView(displayingItem: getMockListCellViewData().item)
+                
+                Spacer()
             }
+            .padding()
+            .padding(.leading, 27)
                 .navigationTitle(NSLocalizedString("ApplicationName", comment: ""))
         }
         .navigationViewStyle(StackNavigationViewStyle())

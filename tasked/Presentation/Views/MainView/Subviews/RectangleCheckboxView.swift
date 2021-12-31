@@ -1,16 +1,14 @@
 import SwiftUI
 
 struct RectangleCheckboxView: View {
-    @State var isActive: Bool = false
-    
-    @State private var backgroundColor = ColorPalette.background
-    
+    @Binding var isActive: Bool
+
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 6)
-                .foregroundColor(backgroundColor)
+                .foregroundColor(isActive ? ColorPalette.activeCheckboxBackground : ColorPalette.inactiveCheckboxBackground)
                 .frame(width: 30, height: 30, alignment: .center)
-            
+
             Image(systemName: "checkmark")
                 .renderingMode(.template)
                 .foregroundColor(.white)
@@ -19,8 +17,6 @@ struct RectangleCheckboxView: View {
         .onTapGesture {
             withAnimation(.easeInOut(duration: 0.3)) {
                 isActive.toggle()
-                
-                backgroundColor = (isActive ? ColorPalette.activeCheckboxBackground : ColorPalette.inactiveCheckboxBackground)
             }
         }
     }
@@ -28,7 +24,6 @@ struct RectangleCheckboxView: View {
 
 struct RectangleCheckboxView_Previews: PreviewProvider {
     static var previews: some View {
-        RectangleCheckboxView()
-            .previewLayout(.sizeThatFits)
+        StatefulPreviewWrapper(false) { RectangleCheckboxView(isActive: $0) }
     }
 }
