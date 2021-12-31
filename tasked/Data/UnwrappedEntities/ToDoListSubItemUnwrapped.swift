@@ -1,10 +1,10 @@
 import Foundation
 
-struct ToDoListSubItemUnwrapped {
+struct ToDoListSubItemUnwrapped:Hashable {
     let task: String?
-    let isDone: Bool?
+    let isDone: Bool
     
-    init(task: String?, isDone: Bool? = false) {
+    init(task: String?, isDone: Bool = false) {
         self.task = task
         self.isDone = isDone
     }

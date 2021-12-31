@@ -1,15 +1,15 @@
 import SwiftUI
 
-struct ListCellView: View {
-    var displayingItem: ToDoListItemUnwrapped
+struct ListCellSubView: View {
+    var displayingSubItem:ToDoListSubItemUnwrapped
     
     @State var isActive = false
-
+    
     var body: some View {
         HStack{
-            RectangleCheckboxView(isActive: $isActive)
+            CircleCheckboxView(isActive: $isActive)
             
-            TaskTextView(taskText: displayingItem.task!, isActive: $isActive)
+            TaskTextView(taskText: displayingSubItem.task!, isActive: $isActive)
                 .padding(.leading, 16)
             
             Spacer()
@@ -21,11 +21,13 @@ struct ListCellView: View {
     }
 }
 
-struct ListCellView_Previews: PreviewProvider {
+struct ListCellSubView_Previews: PreviewProvider {
     static var previews: some View {
         let mockData = getMockListCellViewData()
-
-        ListCellView(displayingItem: mockData)
+        
+        HStack(alignment: .center){
+            ListCellSubView(displayingSubItem: mockData.associatedSubItems![0])
                 .previewLayout(.sizeThatFits)
+        }
     }
 }

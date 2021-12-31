@@ -1,14 +1,12 @@
 import Foundation
 
-typealias MockListCellViewData = (item: ToDoListItemUnwrapped, subItems: [ToDoListSubItemUnwrapped])
-
-func getMockListCellViewData() -> MockListCellViewData {
-    let displayingItem = ToDoListItemUnwrapped(task: "Test task")
-
+func getMockListCellViewData() -> ToDoListItemUnwrapped {
     let displayingSubItems = [
         ToDoListSubItemUnwrapped(task: "Test first subTask", isDone: true),
         ToDoListSubItemUnwrapped(task: "Test second subTask", isDone: false)
     ]
+    
+    let displayingItem = ToDoListItemUnwrapped(task: "Test task", associatedSubItems: displayingSubItems)
 
-    return (displayingItem, displayingSubItems)
+    return displayingItem
 }
