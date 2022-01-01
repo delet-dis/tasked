@@ -51,3 +51,5 @@ spm-sources
 
 # Build configurations
 ResolvedExtensionConfigs/*
+
+Carthage/

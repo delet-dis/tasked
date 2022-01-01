@@ -15,3 +15,5 @@ targets:
       AppStore: release
     sources:
       - path: tasked/
+    dependencies:
+      - framework: "Carthage/Build/NeedleFoundation.xcframework"
