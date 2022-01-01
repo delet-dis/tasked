@@ -16,4 +16,4 @@ targets:
     sources:
       - path: tasked/
     dependencies:
-      - framework: "Carthage/Build/NeedleFoundation.xcframework"
+      - framework: "Carthage/Build/Swinject.xcframework"
