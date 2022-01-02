@@ -1,8 +1,14 @@
 import SwiftUI
 
 struct TasksListView: View {
+    @StateObject private var tasksListViewModel = Self.ViewModel()
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        List{
+            ForEach(tasksListViewModel.toDoItems, id: \.self){toDoItem in
+                ListCellViewCombined(item: toDoItem)
+            }
+        }
     }
 }
 

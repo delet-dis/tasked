@@ -9,7 +9,7 @@ struct ListCellView: View {
         HStack{
             RectangleCheckboxView(isActive: $isActive)
             
-            TaskTextView(taskText: displayingItem.task!, isActive: $isActive)
+            TaskTextView(taskText: displayingItem.task, isActive: $isActive)
                 .padding(.leading, 16)
             
             Spacer()

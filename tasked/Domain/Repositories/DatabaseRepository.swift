@@ -1,7 +1,23 @@
-import SwiftUI
+import CoreData
+import Foundation
 
 final class DatabaseRepository: ToDoListItemDAO, ToDoListSubItemDAO {
-    @Environment(\.managedObjectContext) private var viewContext
+    let persistentContainer: NSPersistentContainer
+    
+    private let viewContext: NSManagedObjectContext
+    
+    static let shared = DatabaseRepository()
+    
+    private init(){
+        persistentContainer = NSPersistentContainer(name: "CoreDataModels")
+        persistentContainer.loadPersistentStores{description, error in
+            if let error = error {
+                print("Unable to initialize CoreData stack \(error.localizedDescription)")
+            }
+        }
+        
+        viewContext = persistentContainer.viewContext
+    }
 
     func getAllToDoListItemsUnwrapped() -> [ToDoListItemUnwrapped]? {
         guard let unwrappedArray = getAllToDoListItems() else {
@@ -43,16 +59,6 @@ final class DatabaseRepository: ToDoListItemDAO, ToDoListSubItemDAO {
         }
     }
 
-    func getAssociatedSubTasksWithItem(_ item: ToDoListItem) -> [ToDoListSubItem]? {
-        guard let unwrappedArray = item.subItemsLink else {
-            return nil
-        }
-
-        return unwrappedArray.map {
-            $0 as! ToDoListSubItem
-        }
-    }
-
     func createToDoListItem(_ task: String) {
         let newItem = ToDoListItem(context: viewContext)
         newItem.task = task
@@ -60,7 +66,7 @@ final class DatabaseRepository: ToDoListItemDAO, ToDoListSubItemDAO {
         saveContext()
     }
 
-    func createToDoListItem(_ task: String, itemToAttach: ToDoListItem) {
+    func createToDoListSubItem(_ task: String, itemToAttach: ToDoListItem) {
         let newSubItem = ToDoListSubItem(context: viewContext)
         newSubItem.task = task
 
@@ -102,10 +108,20 @@ final class DatabaseRepository: ToDoListItemDAO, ToDoListSubItemDAO {
             print("Error saving context")
         }
     }
+    
+    private func getAssociatedSubTasksWithItem(_ item: ToDoListItem) -> [ToDoListSubItem]? {
+        guard let unwrappedArray = item.subItemsLink else {
+            return nil
+        }
+
+        return unwrappedArray.map {
+            $0 as! ToDoListSubItem
+        }
+    }
 
     private func unwrapToDoListItem(_ item: ToDoListItem) -> ToDoListItemUnwrapped {
         ToDoListItemUnwrapped(
-                task: item.task,
+                task: item.task!,
                 isDone: item.isDone,
                 associatedSubItems: getAssociatedSubTasksWithItem(item)?.map {
                     unwrapToDoListSubItem($0)
@@ -115,7 +131,7 @@ final class DatabaseRepository: ToDoListItemDAO, ToDoListSubItemDAO {
 
     private func unwrapToDoListSubItem(_ item: ToDoListSubItem) -> ToDoListSubItemUnwrapped {
         ToDoListSubItemUnwrapped(
-                task: item.task,
+                task: item.task!,
                 isDone: item.isDone
         )
     }
