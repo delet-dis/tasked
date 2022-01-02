@@ -5,20 +5,23 @@ struct ListCellViewCombined: View {
 
     var body: some View {
         VStack {
-            ListCellView(displayingItem: item, isActive: item.isDone)
-                .padding(.leading, 24)
-
             VStack {
-                if let associatedItems = item.associatedSubItems {
-                    ForEach(associatedItems, id: \.self){ subItem in
-                        ListCellSubView(displayingSubItem: subItem, isActive: subItem.isDone)
+                ListCellView(displayingItem: item, isActive: item.isDone)
+                    .padding(.leading, 24)
+
+                VStack {
+                    if let associatedItems = item.associatedSubItems {
+                        ForEach(associatedItems, id: \.self) { subItem in
+                            ListCellSubView(displayingSubItem: subItem, isActive: subItem.isDone)
+                        }
+                    } else {
+                        EmptyView()
                     }
-                } else {
-                    EmptyView()
                 }
+                .padding(.leading, 64)
+                .padding(.top, -5)
             }
-            .padding(.leading, 64)
-            .padding(.top, -5)
+            .background((item.associatedSubItems ?? []).capacity > 0 ? ColorPalette.activeListCellBackground : ColorPalette.inactiveListCellBackground)
         }
     }
 }

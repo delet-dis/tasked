@@ -12,4 +12,12 @@ final class ColorPalette {
     static var inactiveCheckboxBackground: Color {
         background
     }
+    
+    static var activeListCellBackground: Color{
+        Color(.sRGB, red: 238/255, green: 238/255, blue: 238/255)
+    }
+    
+    static var inactiveListCellBackground: Color{
+        Color(.sRGB, red: 255/255, green: 255/255, blue: 255/255)
+    }
 }
