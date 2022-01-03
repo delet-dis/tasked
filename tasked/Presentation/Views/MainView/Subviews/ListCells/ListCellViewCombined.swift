@@ -8,11 +8,15 @@ struct ListCellViewCombined: View {
             VStack {
                 ListCellView(displayingItem: item, isActive: item.isDone)
                     .padding(.leading, 24)
+                    .padding(.bottom, 12)
+                    .padding(.top, 12)
 
                 VStack {
                     if let associatedItems = item.associatedSubItems {
                         ForEach(associatedItems, id: \.self) { subItem in
                             ListCellSubView(displayingSubItem: subItem, isActive: subItem.isDone)
+                                .padding(.bottom, 12)
+                                .padding(.top, 12)
                         }
                     } else {
                         EmptyView()
@@ -21,6 +25,7 @@ struct ListCellViewCombined: View {
                 .padding(.leading, 64)
                 .padding(.top, -5)
             }
+            
             .background((item.associatedSubItems ?? []).capacity > 0 ? ColorPalette.activeListCellBackground : ColorPalette.inactiveListCellBackground)
         }
     }

@@ -16,8 +16,6 @@ struct ListCellView: View {
         }.onTapGesture {
             isActive.toggle()
         }
-        .padding(.top, 9)
-        .padding(.bottom, 9)
     }
 }
 

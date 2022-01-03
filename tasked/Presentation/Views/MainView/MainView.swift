@@ -12,7 +12,7 @@ struct MainView: View {
                     .navigationTitle(NSLocalizedString("ApplicationName", comment: ""))
                 
                 Spacer()
-            }.padding(.top, 20)
+            }
         }
         .navigationViewStyle(StackNavigationViewStyle())
     }
