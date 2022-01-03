@@ -7,11 +7,13 @@ struct MainView: View {
 
     var body: some View {
         NavigationView {
-            VStack {
-                ListCellViewCombined(item: getMockListCellViewData())
-                    .navigationTitle(NSLocalizedString("ApplicationName", comment: ""))
-                
-                Spacer()
+            ScrollView {
+                LazyVStack {
+                    ListCellViewCombined(item: getMockListCellViewData())
+                        .navigationTitle(NSLocalizedString("ApplicationName", comment: ""))
+                    
+                    Spacer()
+                }
             }
         }
         .navigationViewStyle(StackNavigationViewStyle())
