@@ -2,9 +2,9 @@ import CoreData
 import Foundation
 
 final class DatabaseRepository: ToDoListItemDAO, ToDoListSubItemDAO {
-    let persistentContainer: NSPersistentContainer
+    private let persistentContainer: NSPersistentContainer
     
-    private let viewContext: NSManagedObjectContext
+    let viewContext: NSManagedObjectContext
     
     static let shared = DatabaseRepository()
     

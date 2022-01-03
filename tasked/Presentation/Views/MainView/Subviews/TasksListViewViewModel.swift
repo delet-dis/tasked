@@ -6,20 +6,20 @@ extension TasksListView {
     class ViewModel: ObservableObject {
         @Published private(set) var toDoItems: [ToDoListItemUnwrapped] = []
 
-        init(){
-            initDastabaseChangesObserver()
+        init() {
+            initDatabaseChangesObserver()
         }
-        
-        func initDastabaseChangesObserver(){
-            NotificationCenter.default.publisher(for: Notification.Name.NSManagedObjectContextObjectsDidChange, object: nil)
-                .receive(on: DispatchQueue.main)
-                .sink(receiveValue: {_ in
-                    self.toDoItems = DatabaseRepository.shared.getAllToDoListItemsUnwrapped() ?? []
-                })
+
+        func initDatabaseChangesObserver() {
+            NotificationCenter.default.addObserver(
+                    self,
+                    selector: #selector(managedObjectContextObjectsDidChange(_:)),
+                    name: Notification.Name.NSManagedObjectContextObjectsDidChange,
+                    object: DatabaseRepository.shared.viewContext)
         }
-        
-        func managedObjectContextObjectsDidChange(notification: Notification){
-            
+
+        @objc func managedObjectContextObjectsDidChange(_ notification: Notification) {
+
         }
     }
 }
