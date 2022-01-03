@@ -24,7 +24,7 @@ struct ListCellSubView_Previews: PreviewProvider {
         let mockData = getMockListCellViewData()
         
         HStack(alignment: .center){
-            ListCellSubView(displayingSubItem: mockData.associatedSubItems![0])
+            ListCellSubView(displayingSubItem: mockData[0].associatedSubItems![0])
                 .previewLayout(.sizeThatFits)
         }
     }

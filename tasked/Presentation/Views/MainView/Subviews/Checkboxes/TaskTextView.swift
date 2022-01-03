@@ -30,6 +30,6 @@ struct TaskTextView: View {
 
 struct TaskTextView_Previews: PreviewProvider {
     static var previews: some View {
-        StatefulPreviewWrapper(false) { TaskTextView(taskText: getMockListCellViewData().task, isActive: $0) }
+        StatefulPreviewWrapper(false) { TaskTextView(taskText: getMockListCellViewData()[0].task, isActive: $0) }
     }
 }

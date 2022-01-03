@@ -35,7 +35,7 @@ struct ListCellViewCombined_Previews: PreviewProvider {
     static var previews: some View {
         let mockData = getMockListCellViewData()
 
-        ListCellViewCombined(item: mockData)
+        ListCellViewCombined(item: mockData[0])
             .previewLayout(.sizeThatFits)
     }
 }

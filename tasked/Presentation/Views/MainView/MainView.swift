@@ -9,7 +9,7 @@ struct MainView: View {
         NavigationView {
             ScrollView {
                 LazyVStack {
-                    ListCellViewCombined(item: getMockListCellViewData())
+                    TasksListView()
                         .navigationTitle(NSLocalizedString("ApplicationName", comment: ""))
                     
                     Spacer()
