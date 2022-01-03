@@ -4,9 +4,11 @@ struct TasksListView: View {
     @StateObject private var tasksListViewModel = Self.ViewModel()
     
     var body: some View {
-        List{
-            ForEach(tasksListViewModel.toDoItems, id: \.self){toDoItem in
-                ListCellViewCombined(item: toDoItem)
+        LazyVStack{
+            ForEach(tasksListViewModel.toDoItems){toDoItem in
+                VStack {
+                    ListCellViewCombined(item: toDoItem)
+                }
             }
         }
     }

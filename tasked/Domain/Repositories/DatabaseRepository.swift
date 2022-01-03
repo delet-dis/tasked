@@ -82,6 +82,7 @@ final class DatabaseRepository: ToDoListItemDAO, ToDoListSubItemDAO {
     func createToDoListItem(_ task: String) {
         let newItem = ToDoListItem(context: viewContext)
         newItem.task = task
+        newItem.isDone = false
 
         saveContext()
     }
@@ -89,6 +90,7 @@ final class DatabaseRepository: ToDoListItemDAO, ToDoListSubItemDAO {
     func createToDoListSubItem(_ task: String, itemToAttach: ToDoListItem) {
         let newSubItem = ToDoListSubItem(context: viewContext)
         newSubItem.task = task
+        newSubItem.isDone = false
 
         itemToAttach.addToSubItemsLink(newSubItem)
 
@@ -145,6 +147,7 @@ final class DatabaseRepository: ToDoListItemDAO, ToDoListSubItemDAO {
 
     private func unwrapToDoListItem(_ item: ToDoListItem) -> ToDoListItemUnwrapped {
         ToDoListItemUnwrapped(
+                id: item.id,
                 task: item.task!,
                 isDone: item.isDone,
                 associatedSubItems: getAssociatedSubTasksWithItem(item)?.map {
@@ -155,6 +158,7 @@ final class DatabaseRepository: ToDoListItemDAO, ToDoListSubItemDAO {
 
     private func unwrapToDoListSubItem(_ item: ToDoListSubItem) -> ToDoListSubItemUnwrapped {
         ToDoListSubItemUnwrapped(
+                id: item.id,
                 task: item.task!,
                 isDone: item.isDone
         )

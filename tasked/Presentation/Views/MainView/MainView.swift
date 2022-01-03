@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct MainView: View {
+    @State private var todo: String = ""
+    
     init() {
         UINavigationBar.appearance().largeTitleTextAttributes = [.font: UIFont(name: "TTFirsNeue-Bold", size: 32)!]
     }
@@ -8,12 +10,16 @@ struct MainView: View {
     var body: some View {
         NavigationView {
             ScrollView {
-                LazyVStack {
                     TasksListView()
                         .navigationTitle(NSLocalizedString("ApplicationName", comment: ""))
                     
+                    TextField("Todo", text: $todo)
+                    
+                    Button("Save"){
+                        DatabaseRepository.shared.createToDoListItem(todo)
+                    }
+                    
                     Spacer()
-                }
             }
         }
         .navigationViewStyle(StackNavigationViewStyle())

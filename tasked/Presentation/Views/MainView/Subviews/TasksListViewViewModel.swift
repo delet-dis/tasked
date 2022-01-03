@@ -1,6 +1,5 @@
 import CoreData
 import Foundation
-import SwiftUI
 
 extension TasksListView {
     class ViewModel: ObservableObject {
@@ -8,6 +7,7 @@ extension TasksListView {
 
         init() {
             initDatabaseChangesObserver()
+            loadDatabaseRecordings()
         }
 
         func initDatabaseChangesObserver() {
@@ -18,8 +18,12 @@ extension TasksListView {
                     object: DatabaseRepository.shared.viewContext)
         }
 
-        @objc func managedObjectContextObjectsDidChange(_ notification: Notification) {
-
+        @objc private func managedObjectContextObjectsDidChange(_ notification: Notification) {
+            loadDatabaseRecordings()
+        }
+        
+        private func loadDatabaseRecordings(){
+            toDoItems = DatabaseRepository.shared.getAllToDoListItemsUnwrapped() ?? []
         }
     }
 }
