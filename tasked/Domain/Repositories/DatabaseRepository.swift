@@ -48,12 +48,32 @@ final class DatabaseRepository: ToDoListItemDAO, ToDoListSubItemDAO {
             return nil
         }
     }
+    
+    func getToDoListItemById(id: NSManagedObjectID) -> ToDoListItem? {
+        do {
+            return try viewContext.existingObject(with: id) as? ToDoListItem
+        } catch {
+            print("Error getting ToDoListItem")
+
+            return nil
+        }
+    }
 
     func getAllToDoListSubItems() -> [ToDoListSubItem]? {
         do {
             return try viewContext.fetch(ToDoListSubItem.fetchRequest())
         } catch {
             print("Error getting ToDoListSubItems")
+
+            return nil
+        }
+    }
+    
+    func getToDoListSubItemById(id: NSManagedObjectID) -> ToDoListSubItem? {
+        do {
+            return try viewContext.existingObject(with: id) as? ToDoListSubItem
+        } catch {
+            print("Error getting ToDoListSubItem")
 
             return nil
         }
@@ -75,18 +95,22 @@ final class DatabaseRepository: ToDoListItemDAO, ToDoListSubItemDAO {
         saveContext()
     }
 
-    func deleteItem(item: ToDoListItem) {
+    func deleteItem<T: NSManagedObject>(item: T) {
         viewContext.delete(item)
 
         saveContext()
     }
-
-    func deleteItem(item: ToDoListSubItem, parentItem: ToDoListItem) {
-        parentItem.removeFromSubItemsLink(item)
-
-        viewContext.delete(item)
-
-        saveContext()
+    
+    func deleteItemById(id: NSManagedObjectID) {
+        if let itemToDelete = getToDoListItemById(id: id) {
+            deleteItem(item: itemToDelete)
+        }
+    }
+    
+    func deleteSubItemById(id: NSManagedObjectID) {
+        if let itemToDelete = getToDoListSubItemById(id: id) {
+            deleteItem(item: itemToDelete)
+        }
     }
 
     func updateItem(item: ToDoListItem, updatedState: Bool) {
