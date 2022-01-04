@@ -8,7 +8,7 @@ extension TasksListView {
         @Published private(set) var toDoItemsWrapped: [ToDoListItem] = []
 
         init() {
-//            initDatabaseChangesObserver()
+            initDatabaseChangesObserver()
             loadDatabaseRecordings()
         }
 

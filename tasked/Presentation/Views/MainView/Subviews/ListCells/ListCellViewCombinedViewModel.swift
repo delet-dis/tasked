@@ -11,17 +11,10 @@ extension ListCellViewCombined {
             self.toDoItemWrapped = toDoItemWrapped
             
             self.toDoItem = toDoItemWrapped.unwrapped()
-            
-            initDatabaseEntityChangesObserver()
         }
-
-        private func initDatabaseEntityChangesObserver() {
-            let observer = CoreDataContextObserver(context: DatabaseRepository.shared.viewContext)
-            
-            observer.observeObject(object: toDoItemWrapped){ object, state in
-                self.toDoItem = (object as! ToDoListItem).unwrapped()
-            }
+        
+        func toggleItem(){
+            DatabaseRepository.shared.updateItem(item: toDoItemWrapped, updatedState: !toDoItem.isDone)
         }
-    
     }
 }
