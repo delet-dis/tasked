@@ -25,7 +25,7 @@ final class DatabaseRepository: ToDoListItemDAO, ToDoListSubItemDAO {
         }
 
         return unwrappedArray.map {
-            unwrapToDoListItem($0)
+            $0.unwrapped()
         }
     }
 
@@ -35,7 +35,7 @@ final class DatabaseRepository: ToDoListItemDAO, ToDoListSubItemDAO {
         }
 
         return unwrappedArray.map {
-            unwrapToDoListSubItem($0)
+            $0.unwrapped()
         }
     }
 
@@ -134,33 +134,5 @@ final class DatabaseRepository: ToDoListItemDAO, ToDoListSubItemDAO {
             print("Error saving context")
         }
     }
-    
-    private func getAssociatedSubTasksWithItem(_ item: ToDoListItem) -> [ToDoListSubItem]? {
-        guard let unwrappedArray = item.subItemsLink else {
-            return nil
-        }
 
-        return unwrappedArray.map {
-            $0 as! ToDoListSubItem
-        }
-    }
-
-    private func unwrapToDoListItem(_ item: ToDoListItem) -> ToDoListItemUnwrapped {
-        ToDoListItemUnwrapped(
-                id: item.id,
-                task: item.task!,
-                isDone: item.isDone,
-                associatedSubItems: getAssociatedSubTasksWithItem(item)?.map {
-                    unwrapToDoListSubItem($0)
-                }
-        )
-    }
-
-    private func unwrapToDoListSubItem(_ item: ToDoListSubItem) -> ToDoListSubItemUnwrapped {
-        ToDoListSubItemUnwrapped(
-                id: item.id,
-                task: item.task!,
-                isDone: item.isDone
-        )
-    }
 }

@@ -5,9 +5,9 @@ struct TasksListView: View {
     
     var body: some View {
         LazyVStack{
-            ForEach(tasksListViewModel.toDoItems){toDoItem in
+            ForEach(tasksListViewModel.toDoItemsWrapped){toDoItem in
                 VStack {
-                    ListCellViewCombined(item: toDoItem)
+                    ListCellViewCombined(wrappedItem: toDoItem)
                 }
             }
         }

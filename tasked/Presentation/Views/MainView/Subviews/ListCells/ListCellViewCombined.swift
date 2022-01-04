@@ -1,18 +1,26 @@
 import SwiftUI
 
 struct ListCellViewCombined: View {
-    var item: ToDoListItemUnwrapped
+    var wrappedItem: ToDoListItem
+
+    @StateObject private var viewModel: Self.ViewModel
+    
+    init(wrappedItem:ToDoListItem) {
+        self.wrappedItem = wrappedItem
+        
+        _viewModel = StateObject(wrappedValue: Self.ViewModel(toDoItemWrapped: wrappedItem))
+    }
 
     var body: some View {
         VStack {
             VStack {
-                ListCellView(displayingItem: item, isActive: item.isDone)
+                ListCellView(displayingItem: viewModel.toDoItem, isActive: viewModel.toDoItem.isDone)
                     .padding(.leading, 24)
                     .padding(.bottom, 12)
                     .padding(.top, 12)
 
                 VStack {
-                    if let associatedItems = item.associatedSubItems {
+                    if let associatedItems = viewModel.toDoItem.associatedSubItems {
                         ForEach(associatedItems, id: \.self) { subItem in
                             ListCellSubView(displayingSubItem: subItem, isActive: subItem.isDone)
                                 .padding(.bottom, 12)
@@ -26,16 +34,13 @@ struct ListCellViewCombined: View {
                 .padding(.top, -5)
             }
             
-            .background((item.associatedSubItems ?? []).capacity > 0 ? ColorPalette.activeListCellBackground : ColorPalette.inactiveListCellBackground)
+            .background((viewModel.toDoItem.associatedSubItems ?? []).capacity > 0 ? ColorPalette.activeListCellBackground : ColorPalette.inactiveListCellBackground)
         }
     }
 }
 
 struct ListCellViewCombined_Previews: PreviewProvider {
     static var previews: some View {
-        let mockData = getMockListCellViewData()
-
-        ListCellViewCombined(item: mockData[0])
-            .previewLayout(.sizeThatFits)
+        EmptyView()
     }
 }
