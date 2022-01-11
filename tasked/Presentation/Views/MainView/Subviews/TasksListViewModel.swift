@@ -3,7 +3,7 @@ import Foundation
 
 extension TasksListView {
     class ViewModel: ObservableObject {
-        @Published private(set) var toDoItemsWrapped: [ToDoListItem] = []
+        @Published private(set) var toDoItems: [ToDoListItemUnwrapped] = []
 
         init() {
             loadDatabaseRecordings()
@@ -23,7 +23,7 @@ extension TasksListView {
         }
         
         private func loadDatabaseRecordings(){
-            toDoItemsWrapped = DatabaseRepository.shared.getAllToDoListItems() ?? []
+            toDoItems = DatabaseRepository.shared.getAllToDoListItemsUnwrapped() ?? []
         }
     }
 }

@@ -3,19 +3,19 @@ import Foundation
 
 final class DatabaseRepository: ToDoListItemDAO, ToDoListSubItemDAO {
     private let persistentContainer: NSPersistentContainer
-    
+
     let viewContext: NSManagedObjectContext
-    
+
     static let shared = DatabaseRepository()
-    
-    private init(){
+
+    private init() {
         persistentContainer = NSPersistentContainer(name: "CoreDataModels")
-        persistentContainer.loadPersistentStores{description, error in
+        persistentContainer.loadPersistentStores { _, error in
             if let error = error {
                 print("Unable to initialize CoreData stack \(error.localizedDescription)")
             }
         }
-        
+
         viewContext = persistentContainer.viewContext
     }
 
@@ -43,9 +43,9 @@ final class DatabaseRepository: ToDoListItemDAO, ToDoListSubItemDAO {
         do {
             let processingRequest = ToDoListItem.fetchRequest()
             let sort = NSSortDescriptor(key: #keyPath(ToDoListItem.addedDate), ascending: false)
-            
+
             processingRequest.sortDescriptors = [sort]
-            
+
             return try viewContext.fetch(processingRequest)
         } catch {
             print("Error getting ToDoListItems")
@@ -53,7 +53,7 @@ final class DatabaseRepository: ToDoListItemDAO, ToDoListSubItemDAO {
             return nil
         }
     }
-    
+
     func getToDoListItemById(id: NSManagedObjectID) -> ToDoListItem? {
         do {
             return try viewContext.existingObject(with: id) as? ToDoListItem
@@ -68,9 +68,9 @@ final class DatabaseRepository: ToDoListItemDAO, ToDoListSubItemDAO {
         do {
             let processingRequest = ToDoListSubItem.fetchRequest()
             let sort = NSSortDescriptor(key: #keyPath(ToDoListSubItem.addedDate), ascending: false)
-            
+
             processingRequest.sortDescriptors = [sort]
-            
+
             return try viewContext.fetch(processingRequest)
         } catch {
             print("Error getting ToDoListSubItems")
@@ -78,7 +78,7 @@ final class DatabaseRepository: ToDoListItemDAO, ToDoListSubItemDAO {
             return nil
         }
     }
-    
+
     func getToDoListSubItemById(id: NSManagedObjectID) -> ToDoListSubItem? {
         do {
             return try viewContext.existingObject(with: id) as? ToDoListSubItem
@@ -90,23 +90,23 @@ final class DatabaseRepository: ToDoListItemDAO, ToDoListSubItemDAO {
     }
 
     func createToDoListItem(_ task: String) {
-        let newItem = ToDoListItem(context: viewContext)
-        newItem.task = task
-        newItem.isDone = false
-        newItem.addedDate = Date()
+            let newItem = ToDoListItem(context: viewContext)
+            newItem.task = task
+            newItem.isDone = false
+            newItem.addedDate = Date()
 
-        saveContext()
+            saveContext()
     }
 
     func createToDoListSubItem(_ task: String, itemToAttach: ToDoListItem) {
-        let newSubItem = ToDoListSubItem(context: viewContext)
-        newSubItem.task = task
-        newSubItem.isDone = false
-        newSubItem.addedDate = Date()
+            let newSubItem = ToDoListSubItem(context: viewContext)
+            newSubItem.task = task
+            newSubItem.isDone = false
+            newSubItem.addedDate = Date()
 
-        itemToAttach.addToSubItemsLink(newSubItem)
+            itemToAttach.addToSubItemsLink(newSubItem)
 
-        saveContext()
+            saveContext()
     }
 
     func deleteItem<T: NSManagedObject>(item: T) {
@@ -114,13 +114,13 @@ final class DatabaseRepository: ToDoListItemDAO, ToDoListSubItemDAO {
 
         saveContext()
     }
-    
+
     func deleteItemById(id: NSManagedObjectID) {
         if let itemToDelete = getToDoListItemById(id: id) {
             deleteItem(item: itemToDelete)
         }
     }
-    
+
     func deleteSubItemById(id: NSManagedObjectID) {
         if let itemToDelete = getToDoListSubItemById(id: id) {
             deleteItem(item: itemToDelete)
@@ -146,5 +146,4 @@ final class DatabaseRepository: ToDoListItemDAO, ToDoListSubItemDAO {
             print("Error saving context")
         }
     }
-
 }

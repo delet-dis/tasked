@@ -3,7 +3,7 @@ import Foundation
 extension ToDoListItem{
     func unwrapped() -> ToDoListItemUnwrapped{
         ToDoListItemUnwrapped(
-                id: self.id,
+                id: self.objectID,
                 task: self.task!,
                 isDone: self.isDone,
                 associatedSubItems: getAssociatedSubTasks()?.map {

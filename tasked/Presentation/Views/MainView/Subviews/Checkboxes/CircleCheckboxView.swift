@@ -3,7 +3,6 @@ import SwiftUI
 struct CircleCheckboxView: View {
     @Binding var isActive: Bool
 
-
     var body: some View {
         ZStack {
             Circle()

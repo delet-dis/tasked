@@ -2,3 +2,4 @@
 /* Localization file */
 
 "ApplicationName" = "tasked";
+"NewSubItemDescription" = "Новая подзадача";

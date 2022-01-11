@@ -20,4 +20,8 @@ final class ColorPalette {
     static var inactiveListCellBackground: Color{
         Color(.sRGB, red: 255/255, green: 255/255, blue: 255/255)
     }
+    
+    static var plusButtonBackgroundColor: Color{
+        background
+    }
 }
