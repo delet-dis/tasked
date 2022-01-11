@@ -1,11 +1,11 @@
 import SwiftUI
 
 struct TasksListView: View {
-    @StateObject private var tasksListViewModel = Self.ViewModel()
+    @StateObject private var viewModel = Self.ViewModel()
     
     var body: some View {
         LazyVStack{
-            ForEach(tasksListViewModel.toDoItemsWrapped){toDoItem in
+            ForEach(viewModel.toDoItemsWrapped){toDoItem in
                 VStack {
                     ListCellViewCombined(wrappedItem: toDoItem)
                 }

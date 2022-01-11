@@ -12,7 +12,6 @@ struct ListCellViewCombined: View {
     }
 
     var body: some View {
-        VStack {
             VStack {
                 ListCellView(displayingItem: viewModel.toDoItem, isActive: viewModel.toDoItem.isDone)
                     .padding(.leading, 24)
@@ -35,18 +34,17 @@ struct ListCellViewCombined: View {
                 .padding(.top, -5)
             }
             .background((viewModel.toDoItem.associatedSubItems ?? []).capacity > 0 ? ColorPalette.activeListCellBackground : ColorPalette.inactiveListCellBackground)
-        }
-        .simultaneousGesture(
-            TapGesture()
-                .onEnded{_ in
-                    viewModel.toggleItem()
-                }
+            .simultaneousGesture(
+                TapGesture()
+                    .onEnded{_ in
+                        viewModel.toggleItem()
+                    }
     )
 }
 
 struct ListCellViewCombined_Previews: PreviewProvider {
     static var previews: some View {
         EmptyView()
+        }
     }
-}
 }

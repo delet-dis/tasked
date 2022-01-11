@@ -41,7 +41,12 @@ final class DatabaseRepository: ToDoListItemDAO, ToDoListSubItemDAO {
 
     func getAllToDoListItems() -> [ToDoListItem]? {
         do {
-            return try viewContext.fetch(ToDoListItem.fetchRequest())
+            let processingRequest = ToDoListItem.fetchRequest()
+            let sort = NSSortDescriptor(key: #keyPath(ToDoListItem.addedDate), ascending: false)
+            
+            processingRequest.sortDescriptors = [sort]
+            
+            return try viewContext.fetch(processingRequest)
         } catch {
             print("Error getting ToDoListItems")
 
@@ -61,7 +66,12 @@ final class DatabaseRepository: ToDoListItemDAO, ToDoListSubItemDAO {
 
     func getAllToDoListSubItems() -> [ToDoListSubItem]? {
         do {
-            return try viewContext.fetch(ToDoListSubItem.fetchRequest())
+            let processingRequest = ToDoListSubItem.fetchRequest()
+            let sort = NSSortDescriptor(key: #keyPath(ToDoListSubItem.addedDate), ascending: false)
+            
+            processingRequest.sortDescriptors = [sort]
+            
+            return try viewContext.fetch(processingRequest)
         } catch {
             print("Error getting ToDoListSubItems")
 
@@ -83,6 +93,7 @@ final class DatabaseRepository: ToDoListItemDAO, ToDoListSubItemDAO {
         let newItem = ToDoListItem(context: viewContext)
         newItem.task = task
         newItem.isDone = false
+        newItem.addedDate = Date()
 
         saveContext()
     }
@@ -91,6 +102,7 @@ final class DatabaseRepository: ToDoListItemDAO, ToDoListSubItemDAO {
         let newSubItem = ToDoListSubItem(context: viewContext)
         newSubItem.task = task
         newSubItem.isDone = false
+        newSubItem.addedDate = Date()
 
         itemToAttach.addToSubItemsLink(newSubItem)
 

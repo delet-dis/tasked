@@ -3,13 +3,11 @@ import Foundation
 
 extension TasksListView {
     class ViewModel: ObservableObject {
-        @Published private(set) var toDoItems: [ToDoListItemUnwrapped] = []
-        
         @Published private(set) var toDoItemsWrapped: [ToDoListItem] = []
 
         init() {
-            initDatabaseChangesObserver()
             loadDatabaseRecordings()
+            initDatabaseChangesObserver()
         }
 
         func initDatabaseChangesObserver() {
@@ -25,7 +23,6 @@ extension TasksListView {
         }
         
         private func loadDatabaseRecordings(){
-            toDoItems = DatabaseRepository.shared.getAllToDoListItemsUnwrapped() ?? []
             toDoItemsWrapped = DatabaseRepository.shared.getAllToDoListItems() ?? []
         }
     }
