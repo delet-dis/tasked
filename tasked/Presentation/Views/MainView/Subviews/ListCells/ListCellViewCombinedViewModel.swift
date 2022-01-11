@@ -15,6 +15,8 @@ extension ListCellViewCombined {
         
         func toggleItem(){
             DatabaseRepository.shared.updateItem(item: toDoItemWrapped, updatedState: !toDoItem.isDone)
+            
+            self.toDoItem = toDoItemWrapped.unwrapped()
         }
     }
 }
