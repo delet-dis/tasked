@@ -6,7 +6,7 @@ struct EmptyListCellSubView: View {
     @StateObject private var viewModel: Self.ViewModel
 
     @Binding var isActive: Bool
-    
+
     @State private var todo: String = ""
 
     init(item: ToDoListItemUnwrapped, isActive: Binding<Bool>) {
@@ -20,13 +20,13 @@ struct EmptyListCellSubView: View {
     var body: some View {
         TextField(NSLocalizedString("NewSubItemDescription", comment: ""), text: $viewModel.enteredText, onCommit: {
             viewModel.addSubItemToItem()
-            
-            withAnimation(.easeInOut(duration: 0.3)){
+
+            withAnimation(.easeInOut(duration: 0.3)) {
                 isActive = false
             }
         })
-            .opacity(isActive ? 1 : 0)
-            
+        .opacity(isActive ? 1 : 0)
+        .onAppear(perform: { viewModel.clearEnteredValue() })
     }
 }
 

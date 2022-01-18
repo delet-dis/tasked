@@ -21,5 +21,9 @@ extension EmptyListCellSubView {
                 enteredText = ""
             }
         }
+        
+        func clearEnteredValue(){
+            enteredText = ""
+        }
     }
 }
