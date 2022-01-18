@@ -5,6 +5,8 @@ import SwiftUI
 extension ListWrappedCellView {
     class ViewModel: ObservableObject {
         @Published private(set) var toDoItem: ToDoListItemUnwrapped
+        
+        @Published var isNewItemCellDisplaying: Bool = false
 
         init(toDoItem: ToDoListItemUnwrapped) {
             self.toDoItem = toDoItem

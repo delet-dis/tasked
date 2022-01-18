@@ -17,6 +17,8 @@ extension EmptyListCellSubView {
                         DatabaseRepository.shared.createToDoListSubItem(enteredText, itemToAttach: item)
                     }
                 }
+                
+                enteredText = ""
             }
         }
     }

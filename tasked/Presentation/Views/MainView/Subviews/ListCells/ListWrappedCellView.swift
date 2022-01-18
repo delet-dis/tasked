@@ -16,6 +16,20 @@ struct ListWrappedCellView: View {
             HStack {
                 ListCellView(displayingItem: viewModel.toDoItem, isActive: viewModel.toDoItem.isDone)
                     .padding(.leading, 24)
+                
+                Button{
+                    withAnimation(.easeInOut(duration: 0.3)){
+                        viewModel.isNewItemCellDisplaying.toggle()
+                    }
+                } label: {
+                    Image(systemName: "plus")
+                        .renderingMode(.template)
+                        .resizable()
+                        .frame(width: 30, height: 30, alignment: .center)
+                        .foregroundColor(ColorPalette.plusButtonBackgroundColor)
+                        .rotationEffect(.degrees(viewModel.isNewItemCellDisplaying ? -45 : 0))
+                        .padding(.trailing, 24)
+                }
             }
             .padding(.bottom, 12)
             .padding(.top, 12)
@@ -29,6 +43,11 @@ struct ListWrappedCellView: View {
                     }
                 } else {
                     EmptyView()
+                }
+                
+                if viewModel.isNewItemCellDisplaying{
+                    EmptyListCellSubView(item: item, isActive: $viewModel.isNewItemCellDisplaying)
+                        .padding(.bottom, 12)
                 }
             }
             .padding(.leading, 64)
