@@ -25,6 +25,7 @@ struct EmptyListCellSubView: View {
                 isActive = false
             }
         })
+        .font(Font.custom("iAWriterQuattroS-Regular", size: 18))
         .opacity(isActive ? 1 : 0)
         .onAppear(perform: { viewModel.clearEnteredValue() })
     }
