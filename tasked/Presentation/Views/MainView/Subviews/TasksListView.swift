@@ -2,10 +2,10 @@ import SwiftUI
 
 struct TasksListView: View {
     @StateObject private var viewModel = Self.ViewModel()
-    
+
     var body: some View {
-        LazyVStack(spacing: 0){
-            ForEach(viewModel.toDoItems){toDoItem in
+        LazyVStack(spacing: 0) {
+            ForEach(viewModel.toDoItems) { toDoItem in
                 VStack {
                     ListWrappedCellView(item: toDoItem)
                 }

@@ -13,12 +13,13 @@ extension EmptyListCellSubView {
         func addSubItemToItem() {
             if !enteredText.isEmpty {
                 if let toDoItemId = toDoItem.id {
+                    print(toDoItemId)
                     if let item = DatabaseRepository.shared.getToDoListItemById(id: toDoItemId) {
                         DatabaseRepository.shared.createToDoListSubItem(enteredText, itemToAttach: item)
                     }
                 }
                 
-                enteredText = ""
+                clearEnteredValue()
             }
         }
         

@@ -1,15 +1,22 @@
 import CoreData
 import Foundation
-import SwiftUI
 
 extension ListWrappedCellView {
     class ViewModel: ObservableObject {
-        @Published private(set) var toDoItem: ToDoListItemUnwrapped
-        
+        @Published var toDoItem: ToDoListItemUnwrapped{
+            didSet{
+                toDoSubItems = toDoItem.associatedSubItems
+            }
+        }
+
+        @Published private(set) var toDoSubItems: [ToDoListSubItemUnwrapped]?
+
         @Published var isNewItemCellDisplaying: Bool = false
 
         init(toDoItem: ToDoListItemUnwrapped) {
             self.toDoItem = toDoItem
+            
+            self.toDoSubItems = toDoItem.associatedSubItems
         }
 
         func toggleItem() {

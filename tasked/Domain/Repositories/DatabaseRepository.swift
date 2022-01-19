@@ -45,7 +45,7 @@ final class DatabaseRepository: ToDoListItemDAO, ToDoListSubItemDAO {
             let sort = NSSortDescriptor(key: #keyPath(ToDoListItem.addedDate), ascending: false)
 
             processingRequest.sortDescriptors = [sort]
-
+            
             return try viewContext.fetch(processingRequest)
         } catch {
             print("Error getting ToDoListItems")

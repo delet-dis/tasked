@@ -14,7 +14,7 @@ extension TasksListView {
             NotificationCenter.default.addObserver(
                     self,
                     selector: #selector(managedObjectContextObjectsDidChange(_:)),
-                    name: Notification.Name.NSManagedObjectContextObjectsDidChange,
+                    name: Notification.Name.NSManagedObjectContextDidSave,
                     object: DatabaseRepository.shared.viewContext)
         }
 
