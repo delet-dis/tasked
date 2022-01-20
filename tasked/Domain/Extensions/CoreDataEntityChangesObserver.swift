@@ -54,7 +54,7 @@ public class CoreDataContextObserver {
     
     public init(context: NSManagedObjectContext) {
         self.context = context
-        self.persistentStoreCoordinator = context.persistentStoreCoordinator
+        persistentStoreCoordinator = context.persistentStoreCoordinator
         
         notificationObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name.NSManagedObjectContextObjectsDidChange, object: context, queue: nil) { [weak self] notification in
             self?.handleContextObjectDidChangeNotification(notification: notification as NSNotification)

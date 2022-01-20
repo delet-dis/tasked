@@ -3,11 +3,7 @@ import Foundation
 
 extension ListWrappedCellView {
     class ViewModel: ObservableObject {
-        @Published var toDoItem: ToDoListItemUnwrapped{
-            didSet{
-                toDoSubItems = toDoItem.associatedSubItems
-            }
-        }
+        @Published var toDoItem: ToDoListItemUnwrapped
 
         @Published private(set) var toDoSubItems: [ToDoListSubItemUnwrapped]?
 
@@ -16,14 +12,30 @@ extension ListWrappedCellView {
         init(toDoItem: ToDoListItemUnwrapped) {
             self.toDoItem = toDoItem
             
-            self.toDoSubItems = toDoItem.associatedSubItems
+            toDoSubItems = toDoItem.associatedSubItems
+        }
+
+        func updateItem(_ item: ToDoListItemUnwrapped){
+            toDoItem = item
+
+            toDoSubItems = toDoItem.associatedSubItems
         }
 
         func toggleItem() {
             if let toDoItemId = toDoItem.id {
-                if let itemToToggle = DatabaseRepository.shared.getToDoListItemById(id: toDoItemId) {
-                    DatabaseRepository.shared.updateItem(item: itemToToggle, updatedState: !itemToToggle.isDone)
+                if let itemToToggle = DatabaseRepository.shared.getToDoListItemById(toDoItemId) {
+                    let toggleState = !itemToToggle.isDone
+                    
+                    DatabaseRepository.shared.updateItem(itemToToggle, updatedState: toggleState)
+                    
+                    toggleSubItems(itemToToggle: itemToToggle, toggleState: toggleState)
                 }
+            }
+        }
+        
+        private func toggleSubItems(itemToToggle: ToDoListItem, toggleState: Bool){
+            itemToToggle.getAssociatedSubTasks()?.forEach{
+                DatabaseRepository.shared.updateItem($0, updatedState: toggleState)
             }
         }
     }

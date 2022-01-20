@@ -54,7 +54,7 @@ final class DatabaseRepository: ToDoListItemDAO, ToDoListSubItemDAO {
         }
     }
 
-    func getToDoListItemById(id: NSManagedObjectID) -> ToDoListItem? {
+    func getToDoListItemById(_ id: NSManagedObjectID) -> ToDoListItem? {
         do {
             return try viewContext.existingObject(with: id) as? ToDoListItem
         } catch {
@@ -79,7 +79,7 @@ final class DatabaseRepository: ToDoListItemDAO, ToDoListSubItemDAO {
         }
     }
 
-    func getToDoListSubItemById(id: NSManagedObjectID) -> ToDoListSubItem? {
+    func getToDoListSubItemById(_ id: NSManagedObjectID) -> ToDoListSubItem? {
         do {
             return try viewContext.existingObject(with: id) as? ToDoListSubItem
         } catch {
@@ -109,31 +109,31 @@ final class DatabaseRepository: ToDoListItemDAO, ToDoListSubItemDAO {
             saveContext()
     }
 
-    func deleteItem<T: NSManagedObject>(item: T) {
+    func deleteItem<T: NSManagedObject>(_ item: T) {
         viewContext.delete(item)
 
         saveContext()
     }
 
-    func deleteItemById(id: NSManagedObjectID) {
-        if let itemToDelete = getToDoListItemById(id: id) {
-            deleteItem(item: itemToDelete)
+    func deleteItemById(_ id: NSManagedObjectID) {
+        if let itemToDelete = getToDoListItemById(id) {
+            deleteItem(itemToDelete)
         }
     }
 
-    func deleteSubItemById(id: NSManagedObjectID) {
-        if let itemToDelete = getToDoListSubItemById(id: id) {
-            deleteItem(item: itemToDelete)
+    func deleteSubItemById(_ id: NSManagedObjectID) {
+        if let itemToDelete = getToDoListSubItemById(id) {
+            deleteItem(itemToDelete)
         }
     }
 
-    func updateItem(item: ToDoListItem, updatedState: Bool) {
+    func updateItem(_ item: ToDoListItem, updatedState: Bool) {
         item.isDone = updatedState
 
         saveContext()
     }
 
-    func updateItem(item: ToDoListSubItem, updatedState: Bool) {
+    func updateItem(_ item: ToDoListSubItem, updatedState: Bool) {
         item.isDone = updatedState
 
         saveContext()

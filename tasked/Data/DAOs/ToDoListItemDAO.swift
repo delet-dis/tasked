@@ -6,9 +6,9 @@ protocol ToDoListItemDAO {
 
     func createToDoListItem(_ task: String)
     
-    func getToDoListItemById(id: NSManagedObjectID) -> ToDoListItem?
+    func getToDoListItemById(_ id: NSManagedObjectID) -> ToDoListItem?
 
-    func deleteItem<T:NSManagedObject>(item: T)
+    func deleteItem<T:NSManagedObject>(_ item: T)
 
-    func updateItem(item: ToDoListItem, updatedState: Bool)
+    func updateItem(_ item: ToDoListItem, updatedState: Bool)
 }

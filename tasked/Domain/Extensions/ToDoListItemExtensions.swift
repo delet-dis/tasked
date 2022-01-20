@@ -3,17 +3,17 @@ import Foundation
 extension ToDoListItem{
     func unwrapped() -> ToDoListItemUnwrapped{
         ToDoListItemUnwrapped(
-                id: self.objectID,
-                task: self.task!,
-                isDone: self.isDone,
+                id: objectID,
+                task: task!,
+                isDone: isDone,
                 associatedSubItems: getAssociatedSubTasks()?.map {
                     $0.unwrapped()
                 }
         )
     }
     
-    private func getAssociatedSubTasks() -> [ToDoListSubItem]?{
-        guard let unwrappedArray = self.subItemsLink else {
+    func getAssociatedSubTasks() -> [ToDoListSubItem]?{
+        guard let unwrappedArray = subItemsLink else {
             return nil
         }
 

@@ -49,7 +49,7 @@ struct ListWrappedCellView: View {
                     EmptyListCellSubView(item: item, isActive: $viewModel.isNewItemCellDisplaying)
                         .padding(.bottom, 12)
                         .onDisappear(perform: {
-                            viewModel.toDoItem = item
+                            viewModel.updateItem(item)
                         })
                 }
             }
