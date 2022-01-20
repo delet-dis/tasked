@@ -3,23 +3,56 @@ import SwiftUI
 struct MainView: View {
     @State private var todo: String = ""
     
+    @StateObject private var viewModel = Self.ViewModel()
+    
     init() {
         UINavigationBar.appearance().largeTitleTextAttributes = [.font: UIFont(name: "TTFirsNeue-Bold", size: 32)!]
     }
 
     var body: some View {
         NavigationView {
-            ScrollView {
+            ZStack {
+                ScrollView {
                     TasksListView()
                         .navigationTitle(NSLocalizedString("ApplicationName", comment: ""))
+                        .padding(.bottom, viewModel.isNewItemCellDisplaying ? 0 : 90)
                     
-                    TextField("Todo", text: $todo)
-                    
-                    Button("Save"){
-                        DatabaseRepository.shared.createToDoListItem(todo)
+                    if viewModel.isNewItemCellDisplaying {
+                        EmptyListCellView(isActive: $viewModel.isNewItemCellDisplaying)
+                            .padding(.top, 10)
+                            .padding(.bottom, 90)
+                            .padding(.leading, 25)
                     }
-                    
+                }
+                
+                VStack {
                     Spacer()
+                    
+                    HStack {
+                        Spacer()
+                        
+                        Button {
+                            withAnimation(.easeInOut(duration: 0.3)) {
+                                viewModel.isNewItemCellDisplaying.toggle()
+                            }
+                        } label: {
+                            Image(systemName: "plus")
+                                .renderingMode(.template)
+                                .resizable()
+                                .frame(width: 25, height: 25)
+                                .padding()
+                                .foregroundColor(ColorPalette.plusFabButtonColor)
+                                .rotationEffect(.degrees(viewModel.isNewItemCellDisplaying ? 45 : 0))
+                        }
+                        .background(ColorPalette.plusFabButtonBackgroundColor)
+                        .cornerRadius(38.5)
+                        .padding()
+                        .shadow(color: Color.black.opacity(0.3),
+                                radius: 3,
+                                x: 3,
+                                y: 3)
+                    }
+                }
             }
         }
         .navigationViewStyle(StackNavigationViewStyle())

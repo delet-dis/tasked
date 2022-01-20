@@ -31,7 +31,7 @@ struct EmptyListCellSubView: View {
     }
 }
 
-struct EmptyListCellView_Previews: PreviewProvider {
+struct EmptyListCellSubView_Previews: PreviewProvider {
     static var previews: some View {
         let mockData = getMockListCellViewData()
 

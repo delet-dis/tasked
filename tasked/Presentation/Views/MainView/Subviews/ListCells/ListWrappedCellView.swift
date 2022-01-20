@@ -26,7 +26,7 @@ struct ListWrappedCellView: View {
                         .renderingMode(.template)
                         .resizable()
                         .frame(width: 25, height: 25, alignment: .center)
-                        .foregroundColor(ColorPalette.plusButtonBackgroundColor)
+                        .foregroundColor(ColorPalette.plusButtonColor)
                         .rotationEffect(.degrees(viewModel.isNewItemCellDisplaying ? -45 : 0))
                         .padding(.trailing, 24)
                 }

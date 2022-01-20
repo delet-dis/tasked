@@ -3,3 +3,4 @@
 
 "ApplicationName" = "tasked";
 "NewSubItemDescription" = "Новая подзадача";
+"NewItemDescription" = "Новая задача";
