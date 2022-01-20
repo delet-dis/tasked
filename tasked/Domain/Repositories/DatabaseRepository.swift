@@ -42,7 +42,7 @@ final class DatabaseRepository: ToDoListItemDAO, ToDoListSubItemDAO {
     func getAllToDoListItems() -> [ToDoListItem]? {
         do {
             let processingRequest = ToDoListItem.fetchRequest()
-            let sort = NSSortDescriptor(key: #keyPath(ToDoListItem.addedDate), ascending: false)
+            let sort = NSSortDescriptor(key: #keyPath(ToDoListItem.addedDate), ascending: true)
 
             processingRequest.sortDescriptors = [sort]
             
