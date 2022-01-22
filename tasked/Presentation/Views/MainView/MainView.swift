@@ -3,7 +3,7 @@ import SwiftUI
 struct MainView: View {
     @State private var todo: String = ""
     
-    @StateObject private var viewModel = Self.ViewModel()
+    @EnvironmentObject var viewModel: MainViewModel
     
     init() {
         UINavigationBar.appearance().largeTitleTextAttributes = [.font: UIFont(name: "TTFirsNeue-Bold", size: 32)!]
@@ -13,12 +13,12 @@ struct MainView: View {
         NavigationView {
             ZStack {
                 ScrollView {
-                    TasksListView()
+                    TasksListView(viewModel: viewModel.tasksListViewModel)
                         .navigationTitle(NSLocalizedString("ApplicationName", comment: ""))
                         .padding(.bottom, viewModel.isNewItemCellDisplaying ? 0 : 90)
                     
                     if viewModel.isNewItemCellDisplaying {
-                        EmptyListCellView(isActive: $viewModel.isNewItemCellDisplaying)
+                        EmptyListCellView(viewModel: viewModel.emptyListCellViewModel, isActive: $viewModel.isNewItemCellDisplaying)
                             .padding(.top, 10)
                             .padding(.bottom, 90)
                             .padding(.leading, 25)

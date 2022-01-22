@@ -1,7 +1,8 @@
 import Foundation
 
-extension MainView{
-    class ViewModel: ObservableObject{
-        @Published var isNewItemCellDisplaying: Bool = false
-    }
+class MainViewModel: ObservableObject {
+    @Published var tasksListViewModel = TaskListViewModel()
+    @Published var emptyListCellViewModel = EmptyListCellViewModel()
+
+    @Published var isNewItemCellDisplaying: Bool = false
 }

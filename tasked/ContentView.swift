@@ -1,8 +1,11 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject var mainViewModel = MainViewModel()
+    
     var body: some View {
         MainView()
+            .environmentObject(mainViewModel)
     }
 }
 

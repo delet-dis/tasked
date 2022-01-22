@@ -1,14 +1,10 @@
 import SwiftUI
 
 struct ListWrappedCellView: View {
-    var item: ToDoListItemUnwrapped
+    @ObservedObject private var viewModel: ListWrappedCellViewModel
 
-    @StateObject private var viewModel: Self.ViewModel
-
-    init(item: ToDoListItemUnwrapped) {
-        self.item = item
-
-        _viewModel = StateObject(wrappedValue: Self.ViewModel(toDoItem: item))
+    init(viewModel: ListWrappedCellViewModel) {
+        self.viewModel = viewModel
     }
 
     var body: some View {
@@ -46,11 +42,8 @@ struct ListWrappedCellView: View {
                 }
 
                 if viewModel.isNewItemCellDisplaying {
-                    EmptyListCellSubView(item: item, isActive: $viewModel.isNewItemCellDisplaying)
+                    EmptyListCellSubView(item: viewModel.toDoItem, isActive: $viewModel.isNewItemCellDisplaying)
                         .padding(.bottom, 12)
-                        .onDisappear(perform: {
-                            viewModel.updateItem(item)
-                        })
                 }
             }
             .padding(.leading, 64)
@@ -60,9 +53,6 @@ struct ListWrappedCellView: View {
         .background((viewModel.toDoItem.associatedSubItems ?? []).capacity > 0 ? ColorPalette.activeListCellBackground : ColorPalette.inactiveListCellBackground)
         .simultaneousGesture(
             TapGesture()
-                .onEnded { _ in
-                    viewModel.toggleItem()
-                }
         )
     }
 
@@ -70,7 +60,7 @@ struct ListWrappedCellView: View {
         static var previews: some View {
             let mockData = getMockListCellViewData()
 
-            ListWrappedCellView(item: mockData[0])
+            ListWrappedCellView(viewModel: ListWrappedCellViewModel(toDoItem: mockData[0]))
         }
     }
 }

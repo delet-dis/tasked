@@ -1,16 +1,16 @@
 import SwiftUI
 
 struct EmptyListCellView: View {
-    @StateObject private var viewModel: Self.ViewModel
-    
-    @Binding var isActive: Bool
-    
-    init(isActive: Binding<Bool>) {
-        _viewModel = StateObject(wrappedValue: Self.ViewModel())
+    @ObservedObject private var viewModel: EmptyListCellViewModel
 
+    @Binding var isActive: Bool
+
+    init(viewModel: EmptyListCellViewModel, isActive: Binding<Bool>) {
         _isActive = isActive
+
+        self.viewModel = viewModel
     }
-    
+
     var body: some View {
         TextField(NSLocalizedString("NewItemDescription", comment: ""), text: $viewModel.enteredText, onCommit: {
             viewModel.addItem()
@@ -27,6 +27,6 @@ struct EmptyListCellView: View {
 
 struct EmptyListCellView_Previews: PreviewProvider {
     static var previews: some View {
-        StatefulPreviewWrapper(true) { EmptyListCellView(isActive: $0) }
+        StatefulPreviewWrapper(true) { EmptyListCellView(viewModel: EmptyListCellViewModel(), isActive: $0) }
     }
 }

@@ -1,13 +1,17 @@
 import SwiftUI
 
 struct TasksListView: View {
-    @StateObject private var viewModel = Self.ViewModel()
+    @ObservedObject var viewModel: TaskListViewModel
+    
+    init(viewModel: TaskListViewModel) {
+        self.viewModel = viewModel
+    }
 
     var body: some View {
         LazyVStack(spacing: 0) {
-            ForEach(viewModel.toDoItems) { toDoItem in
+            ForEach(0..<viewModel.listWrappedCellViewModels.count) { viewModelIndex in
                 VStack {
-                    ListWrappedCellView(item: toDoItem)
+                    ListWrappedCellView(viewModel: viewModel.listWrappedCellViewModels[viewModelIndex])
                 }
             }
         }
@@ -16,6 +20,6 @@ struct TasksListView: View {
 
 struct TasksListView_Previews: PreviewProvider {
     static var previews: some View {
-        TasksListView()
+        TasksListView(viewModel: TaskListViewModel())
     }
 }

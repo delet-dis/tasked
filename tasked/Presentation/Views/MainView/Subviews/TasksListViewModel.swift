@@ -1,29 +1,44 @@
 import CoreData
 import Foundation
 
-extension TasksListView {
-    class ViewModel: ObservableObject {
-        @Published private(set) var toDoItems: [ToDoListItemUnwrapped] = []
+class TaskListViewModel: ObservableObject {
+    @Published var listWrappedCellViewModels: [ListWrappedCellViewModel] = []
 
-        init() {
-            loadDatabaseRecordings()
-            initDatabaseChangesObserver()
-        }
+    @Published private(set) var toDoItems: [ToDoListItemUnwrapped] = []
 
-        func initDatabaseChangesObserver() {
-            NotificationCenter.default.addObserver(
-                    self,
-                    selector: #selector(managedObjectContextObjectsDidChange(_:)),
-                    name: Notification.Name.NSManagedObjectContextDidSave,
-                    object: DatabaseRepository.shared.viewContext)
-        }
+    init() {
+        initNestedViewModels()
+        loadDatabaseRecordings()
+        initDatabaseChangesObserver()
+    }
 
-        @objc private func managedObjectContextObjectsDidChange(_ notification: Notification) {
-            loadDatabaseRecordings()
+    func initDatabaseChangesObserver() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(managedObjectContextObjectsDidChange(_:)),
+            name: Notification.Name.NSManagedObjectContextDidSave,
+            object: DatabaseRepository.shared.viewContext)
+    }
+
+    @objc private func managedObjectContextObjectsDidChange(_ notification: Notification) {
+        loadDatabaseRecordings()
+    }
+
+    private func initNestedViewModels() {
+        for toDoItem in getToDoListItems() {
+            listWrappedCellViewModels.append(ListWrappedCellViewModel(toDoItem: toDoItem))
         }
-        
-        private func loadDatabaseRecordings(){
-            toDoItems = DatabaseRepository.shared.getAllToDoListItemsUnwrapped() ?? []
+    }
+
+    private func loadDatabaseRecordings() {
+        toDoItems = getToDoListItems()
+
+        for (index, element) in toDoItems.enumerated() {
+            listWrappedCellViewModels[index].updateItem(element)
         }
+    }
+
+    private func getToDoListItems() -> [ToDoListItemUnwrapped] {
+        DatabaseRepository.shared.getAllToDoListItemsUnwrapped() ?? []
     }
 }

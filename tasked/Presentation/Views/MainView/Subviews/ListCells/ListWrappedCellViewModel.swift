@@ -1,42 +1,40 @@
 import CoreData
 import Foundation
 
-extension ListWrappedCellView {
-    class ViewModel: ObservableObject {
-        @Published var toDoItem: ToDoListItemUnwrapped
+class ListWrappedCellViewModel: ObservableObject {
+    @Published var toDoItem: ToDoListItemUnwrapped
 
-        @Published private(set) var toDoSubItems: [ToDoListSubItemUnwrapped]?
+    @Published private(set) var toDoSubItems: [ToDoListSubItemUnwrapped]?
 
-        @Published var isNewItemCellDisplaying: Bool = false
+    @Published var isNewItemCellDisplaying: Bool = false
 
-        init(toDoItem: ToDoListItemUnwrapped) {
-            self.toDoItem = toDoItem
-            
-            toDoSubItems = toDoItem.associatedSubItems
-        }
+    init(toDoItem: ToDoListItemUnwrapped) {
+        self.toDoItem = toDoItem
 
-        func updateItem(_ item: ToDoListItemUnwrapped){
-            toDoItem = item
+        toDoSubItems = toDoItem.associatedSubItems
+    }
 
-            toDoSubItems = toDoItem.associatedSubItems
-        }
+    func updateItem(_ item: ToDoListItemUnwrapped) {
+        toDoItem = item
 
-        func toggleItem() {
-            if let toDoItemId = toDoItem.id {
-                if let itemToToggle = DatabaseRepository.shared.getToDoListItemById(toDoItemId) {
-                    let toggleState = !itemToToggle.isDone
-                    
-                    DatabaseRepository.shared.updateItem(itemToToggle, updatedState: toggleState)
-                    
-                    toggleSubItems(itemToToggle: itemToToggle, toggleState: toggleState)
-                }
+        toDoSubItems = toDoItem.associatedSubItems
+    }
+
+    func toggleItem() {
+        if let toDoItemId = toDoItem.id {
+            if let itemToToggle = DatabaseRepository.shared.getToDoListItemById(toDoItemId) {
+                let toggleState = !itemToToggle.isDone
+
+                DatabaseRepository.shared.updateItem(itemToToggle, updatedState: toggleState)
+
+                toggleSubItems(itemToToggle: itemToToggle, toggleState: toggleState)
             }
         }
-        
-        private func toggleSubItems(itemToToggle: ToDoListItem, toggleState: Bool){
-            itemToToggle.getAssociatedSubTasks()?.forEach{
-                DatabaseRepository.shared.updateItem($0, updatedState: toggleState)
-            }
+    }
+
+    private func toggleSubItems(itemToToggle: ToDoListItem, toggleState: Bool) {
+        itemToToggle.getAssociatedSubTasks()?.forEach {
+            DatabaseRepository.shared.updateItem($0, updatedState: toggleState)
         }
     }
 }
