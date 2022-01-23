@@ -42,7 +42,7 @@ struct ListWrappedCellView: View {
                 }
 
                 if viewModel.isNewItemCellDisplaying {
-                    EmptyListCellSubView(item: viewModel.toDoItem, isActive: $viewModel.isNewItemCellDisplaying)
+                    EmptyListCellSubView(viewModel: viewModel.emptyListCellSubViewModel)
                         .padding(.bottom, 12)
                 }
             }

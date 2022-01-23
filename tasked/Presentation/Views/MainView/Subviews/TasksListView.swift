@@ -9,7 +9,7 @@ struct TasksListView: View {
 
     var body: some View {
         LazyVStack(spacing: 0) {
-            ForEach(0..<viewModel.listWrappedCellViewModels.count) { viewModelIndex in
+            ForEach(0..<viewModel.listWrappedCellViewModels.count, id: \.self) { viewModelIndex in
                 VStack {
                     ListWrappedCellView(viewModel: viewModel.listWrappedCellViewModels[viewModelIndex])
                 }

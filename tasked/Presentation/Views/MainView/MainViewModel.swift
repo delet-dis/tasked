@@ -4,5 +4,9 @@ class MainViewModel: ObservableObject {
     @Published var tasksListViewModel = TaskListViewModel()
     @Published var emptyListCellViewModel = EmptyListCellViewModel()
 
-    @Published var isNewItemCellDisplaying: Bool = false
+    @Published var isNewItemCellDisplaying: Bool = false{
+        didSet{
+            emptyListCellViewModel.isActive = isNewItemCellDisplaying
+        }
+    }
 }

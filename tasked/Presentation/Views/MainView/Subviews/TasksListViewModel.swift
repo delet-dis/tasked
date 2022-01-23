@@ -34,7 +34,13 @@ class TaskListViewModel: ObservableObject {
         toDoItems = getToDoListItems()
 
         for (index, element) in toDoItems.enumerated() {
-            listWrappedCellViewModels[index].updateItem(element)
+            guard let processingElement = listWrappedCellViewModels[exist: index] else {
+                listWrappedCellViewModels.append(ListWrappedCellViewModel(toDoItem: element))
+                
+                return
+            }
+            
+            processingElement.updateItem(element)
         }
     }
 

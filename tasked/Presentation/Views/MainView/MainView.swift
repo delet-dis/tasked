@@ -18,7 +18,7 @@ struct MainView: View {
                         .padding(.bottom, viewModel.isNewItemCellDisplaying ? 0 : 90)
                     
                     if viewModel.isNewItemCellDisplaying {
-                        EmptyListCellView(viewModel: viewModel.emptyListCellViewModel, isActive: $viewModel.isNewItemCellDisplaying)
+                        EmptyListCellView(viewModel: viewModel.emptyListCellViewModel)
                             .padding(.top, 10)
                             .padding(.bottom, 90)
                             .padding(.leading, 25)

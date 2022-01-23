@@ -1,20 +1,10 @@
 import SwiftUI
 
 struct EmptyListCellSubView: View {
-    var item: ToDoListItemUnwrapped
+    @ObservedObject private var viewModel: EmptyListCellSubViewModel
 
-    @StateObject private var viewModel: Self.ViewModel
-
-    @Binding var isActive: Bool
-
-    @State private var todo: String = ""
-
-    init(item: ToDoListItemUnwrapped, isActive: Binding<Bool>) {
-        self.item = item
-
-        _viewModel = StateObject(wrappedValue: Self.ViewModel(toDoItem: item))
-
-        _isActive = isActive
+    init(viewModel: EmptyListCellSubViewModel) {
+        self.viewModel = viewModel
     }
 
     var body: some View {
@@ -22,11 +12,11 @@ struct EmptyListCellSubView: View {
             viewModel.addSubItemToItem()
 
             withAnimation(.easeInOut(duration: 0.3)) {
-                isActive = false
+                viewModel.isActive = false
             }
         })
         .font(Font.custom("iAWriterQuattroS-Regular", size: 18))
-        .opacity(isActive ? 1 : 0)
+        .opacity(viewModel.isActive ? 1 : 0)
         .onAppear(perform: { viewModel.clearEnteredValue() })
     }
 }
@@ -34,7 +24,7 @@ struct EmptyListCellSubView: View {
 struct EmptyListCellSubView_Previews: PreviewProvider {
     static var previews: some View {
         let mockData = getMockListCellViewData()
-
-        StatefulPreviewWrapper(true) { EmptyListCellSubView(item: mockData[0], isActive: $0) }
+        
+        EmptyListCellSubView(viewModel: EmptyListCellSubViewModel(toDoItem: mockData[0], isActive: true))
     }
 }
