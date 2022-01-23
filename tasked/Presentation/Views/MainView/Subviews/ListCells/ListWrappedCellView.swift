@@ -12,6 +12,12 @@ struct ListWrappedCellView: View {
             HStack {
                 ListCellView(displayingItem: viewModel.toDoItem, isActive: viewModel.toDoItem.isDone)
                     .padding(.leading, 24)
+                    .simultaneousGesture(
+                        TapGesture()
+                            .onEnded{
+                                viewModel.toggleItem()
+                            }
+                    )
 
                 Button {
                     withAnimation(.easeInOut(duration: 0.3)) {
@@ -36,6 +42,12 @@ struct ListWrappedCellView: View {
                         ListCellSubView(displayingSubItem: subItem, isActive: subItem.isDone)
                             .padding(.bottom, 12)
                             .padding(.top, 12)
+                            .simultaneousGesture(
+                                TapGesture()
+                                    .onEnded{
+                                        viewModel.toggleSubItem(subItem)
+                                    }
+                            )
                     }
                 } else {
                     EmptyView()
@@ -51,9 +63,6 @@ struct ListWrappedCellView: View {
         }
         .animation(.default)
         .background((viewModel.toDoItem.associatedSubItems ?? []).capacity > 0 ? ColorPalette.activeListCellBackground : ColorPalette.inactiveListCellBackground)
-        .simultaneousGesture(
-            TapGesture()
-        )
     }
 
     struct ListCellViewCombined_Previews: PreviewProvider {

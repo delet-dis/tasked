@@ -45,4 +45,12 @@ class ListWrappedCellViewModel: ObservableObject {
             DatabaseRepository.shared.updateItem($0, updatedState: toggleState)
         }
     }
+    
+    func toggleSubItem(_ item: ToDoListSubItemUnwrapped){
+        if let toDoSubItemId = item.id{
+            if let item = DatabaseRepository.shared.getToDoListSubItemById(toDoSubItemId){
+                DatabaseRepository.shared.updateItem(item, updatedState: !item.isDone)
+            }
+        }
+    }
 }
