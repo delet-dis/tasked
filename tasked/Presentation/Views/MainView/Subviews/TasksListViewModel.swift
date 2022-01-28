@@ -2,7 +2,7 @@ import CoreData
 import Foundation
 
 class TaskListViewModel: ObservableObject {
-    @Published var listWrappedCellViewModels: [ListWrappedCellViewModel] = []
+    @Published var listWrappedCellViewModels: [ListWrappedCellViewModel?] = []
 
     @Published private(set) var toDoItems: [ToDoListItemUnwrapped] = []
 
@@ -25,22 +25,16 @@ class TaskListViewModel: ObservableObject {
     }
 
     private func initNestedViewModels() {
-        for toDoItem in getToDoListItems() {
-            listWrappedCellViewModels.append(ListWrappedCellViewModel(toDoItem: toDoItem))
-        }
+        loadDatabaseRecordings()
     }
 
     private func loadDatabaseRecordings() {
         toDoItems = getToDoListItems()
+        
+        listWrappedCellViewModels = [ListWrappedCellViewModel?](repeating: nil, count: toDoItems.count)
 
         for (index, element) in toDoItems.enumerated() {
-            guard let processingElement = listWrappedCellViewModels[exist: index] else {
-                listWrappedCellViewModels.append(ListWrappedCellViewModel(toDoItem: element))
-                
-                return
-            }
-            
-            processingElement.updateItem(element)
+            listWrappedCellViewModels[index]=ListWrappedCellViewModel(toDoItem: element)
         }
     }
 

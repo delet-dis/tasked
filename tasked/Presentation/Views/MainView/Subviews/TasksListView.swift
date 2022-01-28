@@ -11,7 +11,9 @@ struct TasksListView: View {
         LazyVStack(spacing: 0) {
             ForEach(0..<viewModel.listWrappedCellViewModels.count, id: \.self) { viewModelIndex in
                 VStack {
-                    ListWrappedCellView(viewModel: viewModel.listWrappedCellViewModels[viewModelIndex])
+                    if let processingViewModel = viewModel.listWrappedCellViewModels[viewModelIndex]{
+                        ListWrappedCellView(viewModel: processingViewModel)
+                    }
                 }
             }
         }
