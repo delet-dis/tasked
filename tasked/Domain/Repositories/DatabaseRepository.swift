@@ -45,7 +45,7 @@ final class DatabaseRepository: ToDoListItemDAO, ToDoListSubItemDAO {
             let sort = NSSortDescriptor(key: #keyPath(ToDoListItem.addedDate), ascending: true)
 
             processingRequest.sortDescriptors = [sort]
-            
+
             return try viewContext.fetch(processingRequest)
         } catch {
             print("Error getting ToDoListItems")
@@ -90,23 +90,23 @@ final class DatabaseRepository: ToDoListItemDAO, ToDoListSubItemDAO {
     }
 
     func createToDoListItem(_ task: String) {
-            let newItem = ToDoListItem(context: viewContext)
-            newItem.task = task
-            newItem.isDone = false
-            newItem.addedDate = Date()
+        let newItem = ToDoListItem(context: viewContext)
+        newItem.task = task
+        newItem.isDone = false
+        newItem.addedDate = Date()
 
-            saveContext()
+        saveContext()
     }
 
     func createToDoListSubItem(_ task: String, itemToAttach: ToDoListItem) {
-            let newSubItem = ToDoListSubItem(context: viewContext)
-            newSubItem.task = task
-            newSubItem.isDone = false
-            newSubItem.addedDate = Date()
+        let newSubItem = ToDoListSubItem(context: viewContext)
+        newSubItem.task = task
+        newSubItem.isDone = false
+        newSubItem.addedDate = Date()
 
-            itemToAttach.addToSubItemsLink(newSubItem)
+        itemToAttach.addToSubItemsLink(newSubItem)
 
-            saveContext()
+        saveContext()
     }
 
     func deleteItem<T: NSManagedObject>(_ item: T) {

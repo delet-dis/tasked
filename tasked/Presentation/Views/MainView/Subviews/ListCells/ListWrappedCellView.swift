@@ -61,8 +61,10 @@ struct ListWrappedCellView: View {
             .padding(.leading, 64)
             .padding(.top, -5)
         }
-        .animation(.default)
         .background((viewModel.toDoItem.associatedSubItems ?? []).capacity > 0 ? ColorPalette.activeListCellBackground : ColorPalette.inactiveListCellBackground)
+        .onDelete {
+            viewModel.deleteItem()
+        }
     }
 
     struct ListCellViewCombined_Previews: PreviewProvider {

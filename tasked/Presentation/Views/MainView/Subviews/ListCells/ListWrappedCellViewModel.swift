@@ -3,13 +3,13 @@ import Foundation
 
 class ListWrappedCellViewModel: ObservableObject {
     @Published var emptyListCellSubViewModel: EmptyListCellSubViewModel
-    
+
     @Published var toDoItem: ToDoListItemUnwrapped
 
     @Published private(set) var toDoSubItems: [ToDoListSubItemUnwrapped]?
 
-    @Published var isNewItemCellDisplaying: Bool = false{
-        didSet{
+    @Published var isNewItemCellDisplaying: Bool = false {
+        didSet {
             emptyListCellSubViewModel.isActive = isNewItemCellDisplaying
         }
     }
@@ -18,7 +18,7 @@ class ListWrappedCellViewModel: ObservableObject {
         self.toDoItem = toDoItem
 
         toDoSubItems = toDoItem.associatedSubItems
-        
+
         emptyListCellSubViewModel = EmptyListCellSubViewModel(toDoItem: toDoItem, isActive: false)
     }
 
@@ -45,12 +45,18 @@ class ListWrappedCellViewModel: ObservableObject {
             DatabaseRepository.shared.updateItem($0, updatedState: toggleState)
         }
     }
-    
-    func toggleSubItem(_ item: ToDoListSubItemUnwrapped){
-        if let toDoSubItemId = item.id{
-            if let item = DatabaseRepository.shared.getToDoListSubItemById(toDoSubItemId){
+
+    func toggleSubItem(_ item: ToDoListSubItemUnwrapped) {
+        if let toDoSubItemId = item.id {
+            if let item = DatabaseRepository.shared.getToDoListSubItemById(toDoSubItemId) {
                 DatabaseRepository.shared.updateItem(item, updatedState: !item.isDone)
             }
+        }
+    }
+    
+    func deleteItem(){
+        if let toDoItemId = toDoItem.id {
+            DatabaseRepository.shared.deleteItemById(toDoItemId)
         }
     }
 }
