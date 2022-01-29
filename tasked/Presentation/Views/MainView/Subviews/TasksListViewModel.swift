@@ -30,11 +30,11 @@ class TaskListViewModel: ObservableObject {
 
     private func loadDatabaseRecordings() {
         toDoItems = getToDoListItems()
-        
+
         listWrappedCellViewModels = [ListWrappedCellViewModel?](repeating: nil, count: toDoItems.count)
 
         for (index, element) in toDoItems.enumerated() {
-            listWrappedCellViewModels[index]=ListWrappedCellViewModel(toDoItem: element)
+            listWrappedCellViewModels[index] = ListWrappedCellViewModel(toDoItem: element)
         }
     }
 

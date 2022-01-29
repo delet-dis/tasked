@@ -8,18 +8,14 @@ class ListWrappedCellViewModel: ObservableObject {
 
     @Published private(set) var toDoSubItems: [ToDoListSubItemUnwrapped]?
 
-    @Published var isNewItemCellDisplaying: Bool = false {
-        didSet {
-            emptyListCellSubViewModel.isActive = isNewItemCellDisplaying
-        }
-    }
+    @Published var isNewItemCellDisplaying: Bool = false
 
     init(toDoItem: ToDoListItemUnwrapped) {
         self.toDoItem = toDoItem
 
         toDoSubItems = toDoItem.associatedSubItems
 
-        emptyListCellSubViewModel = EmptyListCellSubViewModel(toDoItem: toDoItem, isActive: false)
+        emptyListCellSubViewModel = EmptyListCellSubViewModel(toDoItem: toDoItem)
     }
 
     func updateItem(_ item: ToDoListItemUnwrapped) {

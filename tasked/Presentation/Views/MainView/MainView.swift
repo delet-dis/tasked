@@ -18,7 +18,7 @@ struct MainView: View {
                         .padding(.bottom, viewModel.isNewItemCellDisplaying ? 0 : 90)
                     
                     if viewModel.isNewItemCellDisplaying {
-                        EmptyListCellView(viewModel: viewModel.emptyListCellViewModel)
+                        EmptyListCellView(viewModel: viewModel.emptyListCellViewModel, isActive: $viewModel.isNewItemCellDisplaying)
                             .padding(.top, 10)
                             .padding(.bottom, 90)
                             .padding(.leading, 25)
@@ -42,7 +42,7 @@ struct MainView: View {
                                 .frame(width: 25, height: 25)
                                 .padding()
                                 .foregroundColor(ColorPalette.plusFabButtonColor)
-                                .rotationEffect(.degrees(viewModel.isNewItemCellDisplaying ? 45 : 0))
+                                .rotationEffect(.degrees(viewModel.isNewItemCellDisplaying ? -45 : 0))
                         }
                         .background(ColorPalette.plusFabButtonBackgroundColor)
                         .cornerRadius(38.5)

@@ -4,12 +4,9 @@ class EmptyListCellSubViewModel: ObservableObject {
     @Published var enteredText: String = ""
 
     @Published private(set) var toDoItem: ToDoListItemUnwrapped
-    
-    @Published var isActive: Bool
 
-    init(toDoItem: ToDoListItemUnwrapped, isActive: Bool) {
+    init(toDoItem: ToDoListItemUnwrapped) {
         self.toDoItem = toDoItem
-        self.isActive = isActive
     }
 
     func addSubItemToItem() {

@@ -54,7 +54,7 @@ struct ListWrappedCellView: View {
                 }
 
                 if viewModel.isNewItemCellDisplaying {
-                    EmptyListCellSubView(viewModel: viewModel.emptyListCellSubViewModel)
+                    EmptyListCellSubView(viewModel: viewModel.emptyListCellSubViewModel, isActive: $viewModel.isNewItemCellDisplaying)
                         .padding(.bottom, 12)
                 }
             }
@@ -62,9 +62,6 @@ struct ListWrappedCellView: View {
             .padding(.top, -5)
         }
         .background((viewModel.toDoItem.associatedSubItems ?? []).capacity > 0 ? ColorPalette.activeListCellBackground : ColorPalette.inactiveListCellBackground)
-        .onDelete {
-            viewModel.deleteItem()
-        }
     }
 
     struct ListCellViewCombined_Previews: PreviewProvider {
