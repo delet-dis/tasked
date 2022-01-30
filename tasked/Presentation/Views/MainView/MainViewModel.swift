@@ -1,8 +1,8 @@
 import Foundation
 
 class MainViewModel: ObservableObject {
-    @Published var tasksListViewModel = TaskListViewModel()
-    @Published var emptyListCellViewModel = EmptyListCellViewModel()
+    @Published private(set) var tasksListViewModel = TaskListViewModel()
+    @Published private(set) var emptyListCellViewModel = EmptyListCellViewModel()
 
     @Published var isNewItemCellDisplaying: Bool = false
 }

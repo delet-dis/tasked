@@ -1,20 +1,22 @@
 import SwiftUI
 
 struct ListCellSubView: View {
-    var displayingSubItem: ToDoListSubItemUnwrapped
+    @ObservedObject private var viewModel: ListCellSubViewModel
     
-    @State var isActive = false
+    init(viewModel: ListCellSubViewModel) {
+        self.viewModel = viewModel
+    }
     
     var body: some View {
         HStack {
-            CircleCheckboxView(isActive: $isActive)
+            CircleCheckboxView(isActive: $viewModel.isActive)
             
-            TaskTextView(taskText: displayingSubItem.task, isActive: $isActive)
+            TaskTextView(taskText: viewModel.displayingItem.task, isActive: $viewModel.isActive)
                 .padding(.leading, 16)
             
             Spacer()
         }.onTapGesture {
-            isActive.toggle()
+            viewModel.toggleItem()
         }
     }
 }
@@ -23,7 +25,7 @@ struct ListCellSubView_Previews: PreviewProvider {
     static var previews: some View {
         let mockData = getMockListCellViewData()
         
-        ListCellSubView(displayingSubItem: mockData[0].associatedSubItems![0])
+        ListCellSubView(viewModel: ListCellSubViewModel(displayingItem: mockData[0].associatedSubItems![0]))
             .previewLayout(.sizeThatFits)
     }
 }

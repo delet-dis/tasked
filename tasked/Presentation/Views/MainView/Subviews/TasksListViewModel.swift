@@ -2,7 +2,7 @@ import CoreData
 import Foundation
 
 class TaskListViewModel: ObservableObject {
-    @Published var listWrappedCellViewModels: [ListWrappedCellViewModel?] = []
+    @Published private(set) var listWrappedCellViewModels: [ListWrappedCellViewModel?] = []
 
     @Published private(set) var toDoItems: [ToDoListItemUnwrapped] = []
 

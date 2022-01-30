@@ -37,17 +37,15 @@ struct ListWrappedCellView: View {
             .padding(.top, 12)
 
             VStack {
-                if let associatedItems = viewModel.toDoSubItems {
-                    ForEach(associatedItems, id: \.self) { subItem in
-                        ListCellSubView(displayingSubItem: subItem, isActive: subItem.isDone)
-                            .padding(.bottom, 12)
-                            .padding(.top, 12)
-                            .simultaneousGesture(
-                                TapGesture()
-                                    .onEnded{
-                                        viewModel.toggleSubItem(subItem)
-                                    }
-                            )
+                if let viewModels = viewModel.listCellSubviewsViewModels {
+                    ForEach(0..<viewModels.count, id: \.self) { viewModelIndex in
+                        VStack {
+                            if let processingViewModel = viewModel.listCellSubviewsViewModels[viewModelIndex]{
+                                ListCellSubView(viewModel: processingViewModel)
+                                    .padding(.bottom, 12)
+                                    .padding(.top, 12)
+                            }
+                        }
                     }
                 } else {
                     EmptyView()

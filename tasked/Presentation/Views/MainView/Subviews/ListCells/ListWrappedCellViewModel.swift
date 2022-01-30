@@ -2,26 +2,36 @@ import CoreData
 import Foundation
 
 class ListWrappedCellViewModel: ObservableObject {
-    @Published var emptyListCellSubViewModel: EmptyListCellSubViewModel
+    @Published private(set) var emptyListCellSubViewModel: EmptyListCellSubViewModel
 
-    @Published var toDoItem: ToDoListItemUnwrapped
-
-    @Published private(set) var toDoSubItems: [ToDoListSubItemUnwrapped]?
+    @Published private(set) var toDoItem: ToDoListItemUnwrapped
 
     @Published var isNewItemCellDisplaying: Bool = false
+    
+    @Published private(set) var listCellSubviewsViewModels: [ListCellSubViewModel?] = []
 
     init(toDoItem: ToDoListItemUnwrapped) {
         self.toDoItem = toDoItem
-
-        toDoSubItems = toDoItem.associatedSubItems
-
+        
         emptyListCellSubViewModel = EmptyListCellSubViewModel(toDoItem: toDoItem)
+        
+        updateListCellSubviewsViewModels()
+    }
+    
+    private func updateListCellSubviewsViewModels(){
+        if let toDoSubItems = toDoItem.associatedSubItems {
+            listCellSubviewsViewModels = [ListCellSubViewModel?](repeating: nil, count: toDoSubItems.count)
+            
+            for (index, element) in toDoSubItems.enumerated() {
+                listCellSubviewsViewModels[index] = ListCellSubViewModel(displayingItem: element)
+            }
+        }
     }
 
     func updateItem(_ item: ToDoListItemUnwrapped) {
         toDoItem = item
-
-        toDoSubItems = toDoItem.associatedSubItems
+        
+        updateListCellSubviewsViewModels()
     }
 
     func toggleItem() {
