@@ -2,7 +2,7 @@ import SwiftUI
 
 struct EmptyListCellSubView: View {
     @ObservedObject private var viewModel: EmptyListCellSubViewModel
-    
+
     @Binding var isActive: Bool
 
     init(viewModel: EmptyListCellSubViewModel, isActive: Binding<Bool>) {
@@ -27,7 +27,7 @@ struct EmptyListCellSubView: View {
 struct EmptyListCellSubView_Previews: PreviewProvider {
     static var previews: some View {
         let mockData = getMockListCellViewData()
-        StatefulPreviewWrapper(true){
+        StatefulPreviewWrapper(true) {
             EmptyListCellSubView(viewModel: EmptyListCellSubViewModel(toDoItem: mockData[0]), isActive: $0)
         }
     }

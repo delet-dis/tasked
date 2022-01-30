@@ -5,7 +5,7 @@ func getMockListCellViewData() -> [ToDoListItemUnwrapped] {
         ToDoListSubItemUnwrapped(task: "Test first subTask", isDone: true),
         ToDoListSubItemUnwrapped(task: "Test second subTask", isDone: false)
     ]
-    
+
     let displayingItems = [ToDoListItemUnwrapped(task: "Test task", associatedSubItems: displayingSubItems),
                            ToDoListItemUnwrapped(task: "second test task", associatedSubItems: displayingSubItems)]
 

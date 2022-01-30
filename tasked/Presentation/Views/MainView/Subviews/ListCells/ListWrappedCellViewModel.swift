@@ -7,21 +7,21 @@ class ListWrappedCellViewModel: ObservableObject {
     @Published private(set) var toDoItem: ToDoListItemUnwrapped
 
     @Published var isNewItemCellDisplaying: Bool = false
-    
+
     @Published private(set) var listCellSubviewsViewModels: [ListCellSubViewModel?] = []
 
     init(toDoItem: ToDoListItemUnwrapped) {
         self.toDoItem = toDoItem
-        
+
         emptyListCellSubViewModel = EmptyListCellSubViewModel(toDoItem: toDoItem)
-        
+
         updateListCellSubviewsViewModels()
     }
-    
-    private func updateListCellSubviewsViewModels(){
+
+    private func updateListCellSubviewsViewModels() {
         if let toDoSubItems = toDoItem.associatedSubItems {
             listCellSubviewsViewModels = [ListCellSubViewModel?](repeating: nil, count: toDoSubItems.count)
-            
+
             for (index, element) in toDoSubItems.enumerated() {
                 listCellSubviewsViewModels[index] = ListCellSubViewModel(displayingItem: element)
             }
@@ -30,7 +30,7 @@ class ListWrappedCellViewModel: ObservableObject {
 
     func updateItem(_ item: ToDoListItemUnwrapped) {
         toDoItem = item
-        
+
         updateListCellSubviewsViewModels()
     }
 
@@ -59,8 +59,8 @@ class ListWrappedCellViewModel: ObservableObject {
             }
         }
     }
-    
-    func deleteItem(){
+
+    func deleteItem() {
         if let toDoItemId = toDoItem.id {
             DatabaseRepository.shared.deleteItemById(toDoItemId)
         }

@@ -1,11 +1,11 @@
-import Foundation
 import CoreData
+import Foundation
 
-struct ToDoListSubItemUnwrapped:Hashable, Identifiable {
+struct ToDoListSubItemUnwrapped: Hashable, Identifiable {
     let id: NSManagedObjectID?
     let task: String
     let isDone: Bool
-    
+
     init(id: NSManagedObjectID? = nil, task: String, isDone: Bool = false) {
         self.id = id
         self.task = task

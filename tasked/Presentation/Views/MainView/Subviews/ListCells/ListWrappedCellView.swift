@@ -14,7 +14,7 @@ struct ListWrappedCellView: View {
                     .padding(.leading, 24)
                     .simultaneousGesture(
                         TapGesture()
-                            .onEnded{
+                            .onEnded {
                                 viewModel.toggleItem()
                             }
                     )
@@ -38,9 +38,9 @@ struct ListWrappedCellView: View {
 
             VStack {
                 if let viewModels = viewModel.listCellSubviewsViewModels {
-                    ForEach(0..<viewModels.count, id: \.self) { viewModelIndex in
+                    ForEach(0 ..< viewModels.count, id: \.self) { viewModelIndex in
                         VStack {
-                            if let processingViewModel = viewModel.listCellSubviewsViewModels[viewModelIndex]{
+                            if let processingViewModel = viewModel.listCellSubviewsViewModels[viewModelIndex] {
                                 ListCellSubView(viewModel: processingViewModel)
                                     .padding(.bottom, 12)
                                     .padding(.top, 12)

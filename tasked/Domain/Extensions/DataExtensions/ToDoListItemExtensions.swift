@@ -1,18 +1,18 @@
 import Foundation
 
-extension ToDoListItem{
-    func unwrapped() -> ToDoListItemUnwrapped{
+extension ToDoListItem {
+    func unwrapped() -> ToDoListItemUnwrapped {
         ToDoListItemUnwrapped(
-                id: objectID,
-                task: task!,
-                isDone: isDone,
-                associatedSubItems: getAssociatedSubTasks()?.map {
-                    $0.unwrapped()
-                }
+            id: objectID,
+            task: task!,
+            isDone: isDone,
+            associatedSubItems: getAssociatedSubTasks()?.map {
+                $0.unwrapped()
+            }
         )
     }
-    
-    func getAssociatedSubTasks() -> [ToDoListSubItem]?{
+
+    func getAssociatedSubTasks() -> [ToDoListSubItem]? {
         guard let unwrappedArray = subItemsLink else {
             return nil
         }

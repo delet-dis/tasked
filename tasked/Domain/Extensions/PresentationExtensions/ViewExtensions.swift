@@ -1,7 +1,6 @@
 import SwiftUI
 
 struct Delete: ViewModifier {
-    
     let action: () -> Void
     
     @State var offset: CGSize = .zero
@@ -21,29 +20,29 @@ struct Delete: ViewModifier {
                             .font(.title2.bold())
                             .layoutPriority(-1)
                     }.frame(width: -offset.width)
-                    .offset(x: geometry.size.width)
-                    .onAppear {
-                        contentWidth = geometry.size.width
-                    }
-                    .gesture(
-                        TapGesture()
-                            .onEnded {
-                                delete()
-                            }
-                    )
+                        .offset(x: geometry.size.width)
+                        .onAppear {
+                            contentWidth = geometry.size.width
+                        }
+                        .gesture(
+                            TapGesture()
+                                .onEnded {
+                                    delete()
+                                }
+                        )
                 }
             )
             .offset(x: offset.width, y: 0)
-            .gesture (
+            .gesture(
                 DragGesture()
                     .onChanged { gesture in
                         if gesture.translation.width + initialOffset.width <= 0 {
                             self.offset.width = gesture.translation.width + initialOffset.width
                         }
-                        if self.offset.width < -deletionDistance && !willDeleteIfReleased {
+                        if self.offset.width < -deletionDistance, !willDeleteIfReleased {
                             hapticFeedback()
                             willDeleteIfReleased.toggle()
-                        } else if offset.width > -deletionDistance && willDeleteIfReleased {
+                        } else if offset.width > -deletionDistance, willDeleteIfReleased {
                             hapticFeedback()
                             willDeleteIfReleased.toggle()
                         }
@@ -76,14 +75,10 @@ struct Delete: ViewModifier {
     let deletionDistance = CGFloat(200)
     let halfDeletionDistance = CGFloat(50)
     let tappableDeletionWidth = CGFloat(100)
-    
-    
 }
 
 extension View {
-    
     func onDelete(perform action: @escaping () -> Void) -> some View {
-        self.modifier(Delete(action: action))
+        modifier(Delete(action: action))
     }
-    
 }

@@ -5,7 +5,7 @@ extension Array {
             return
         }
         if sizeDifference > 0 {
-            self.append(contentsOf: Array<Element>(repeating: filler, count: sizeDifference));
+            self.append(contentsOf: [Element](repeating: filler, count: sizeDifference))
         }
         else {
             self.removeLast(sizeDifference * -1)
@@ -13,7 +13,7 @@ extension Array {
     }
 
     func resized(to size: Int, with filler: Element) -> Array {
-        var selfCopy = self;
+        var selfCopy = self
         selfCopy.resize(to: size, with: filler)
         return selfCopy
     }

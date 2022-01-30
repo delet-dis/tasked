@@ -1,11 +1,11 @@
 import Foundation
 
-extension ToDoListSubItem{
-    func unwrapped() -> ToDoListSubItemUnwrapped{
+extension ToDoListSubItem {
+    func unwrapped() -> ToDoListSubItemUnwrapped {
         ToDoListSubItemUnwrapped(
-                id: objectID,
-                task: task!,
-                isDone: isDone
+            id: objectID,
+            task: task!,
+            isDone: isDone
         )
     }
 }

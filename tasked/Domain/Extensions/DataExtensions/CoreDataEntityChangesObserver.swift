@@ -1,18 +1,18 @@
-import Foundation
 import CoreData
+import Foundation
 
 public struct CoreDataContextObserverState: OptionSet {
     public let rawValue: Int
     public init(rawValue: Int) { self.rawValue = rawValue }
     
-    public static let Inserted    = CoreDataContextObserverState(rawValue: 1 << 0)
+    public static let Inserted = CoreDataContextObserverState(rawValue: 1 << 0)
     public static let Updated = CoreDataContextObserverState(rawValue: 1 << 1)
-    public static let Deleted   = CoreDataContextObserverState(rawValue: 1 << 2)
-    public static let Refreshed   = CoreDataContextObserverState(rawValue: 1 << 3)
-    public static let All: CoreDataContextObserverState  = [Inserted, Updated, Deleted, Refreshed]
+    public static let Deleted = CoreDataContextObserverState(rawValue: 1 << 2)
+    public static let Refreshed = CoreDataContextObserverState(rawValue: 1 << 3)
+    public static let All: CoreDataContextObserverState = [Inserted, Updated, Deleted, Refreshed]
 }
 
-public typealias CoreDataContextObserverCompletionBlock = (NSManagedObject,CoreDataContextObserverState) -> ()
+public typealias CoreDataContextObserverCompletionBlock = (NSManagedObject, CoreDataContextObserverState) -> ()
 public typealias CoreDataContextObserverContextChangeBlock = (_ notification: NSNotification, _ changedObjects: [CoreDataObserverObjectChange]) -> ()
 
 public enum CoreDataObserverObjectChange {
@@ -42,7 +42,7 @@ public class CoreDataContextObserver {
     
     private var notificationObserver: NSObjectProtocol?
     private(set) var context: NSManagedObjectContext
-    private(set) var actionsForManagedObjectID: Dictionary<NSManagedObjectID,[CoreDataObserverAction]> = [:]
+    private(set) var actionsForManagedObjectID: [NSManagedObjectID: [CoreDataObserverAction]] = [:]
     private(set) weak var persistentStoreCoordinator: NSPersistentStoreCoordinator?
     
     deinit {
@@ -63,8 +63,9 @@ public class CoreDataContextObserver {
     
     private func handleContextObjectDidChangeNotification(notification: NSNotification) {
         guard let incomingContext = notification.object as? NSManagedObjectContext,
-            let persistentStoreCoordinator = persistentStoreCoordinator,
-              let incomingPersistentStoreCoordinator = incomingContext.persistentStoreCoordinator, enabled && persistentStoreCoordinator == incomingPersistentStoreCoordinator else {
+              let persistentStoreCoordinator = persistentStoreCoordinator,
+              let incomingPersistentStoreCoordinator = incomingContext.persistentStoreCoordinator, enabled, persistentStoreCoordinator == incomingPersistentStoreCoordinator
+        else {
             return
         }
 
@@ -73,29 +74,29 @@ public class CoreDataContextObserver {
         let deletedObjectsSet = notification.userInfo?[NSDeletedObjectsKey] as? Set<NSManagedObject> ?? Set<NSManagedObject>()
         let refreshedObjectsSet = notification.userInfo?[NSRefreshedObjectsKey] as? Set<NSManagedObject> ?? Set<NSManagedObject>()
         
-        var combinedObjectChanges = insertedObjectsSet.map({ CoreDataObserverObjectChange.Inserted($0) })
-        combinedObjectChanges += updatedObjectsSet.map({ CoreDataObserverObjectChange.Updated($0) })
-        combinedObjectChanges += deletedObjectsSet.map({ CoreDataObserverObjectChange.Deleted($0) })
-        combinedObjectChanges += refreshedObjectsSet.map({ CoreDataObserverObjectChange.Refreshed($0) })
+        var combinedObjectChanges = insertedObjectsSet.map { CoreDataObserverObjectChange.Inserted($0) }
+        combinedObjectChanges += updatedObjectsSet.map { CoreDataObserverObjectChange.Updated($0) }
+        combinedObjectChanges += deletedObjectsSet.map { CoreDataObserverObjectChange.Deleted($0) }
+        combinedObjectChanges += refreshedObjectsSet.map { CoreDataObserverObjectChange.Refreshed($0) }
 
-        contextChangeBlock?(notification,combinedObjectChanges)
+        contextChangeBlock?(notification, combinedObjectChanges)
         
         let combinedSet = insertedObjectsSet.union(updatedObjectsSet).union(deletedObjectsSet)
         let allObjectIDs = Array(actionsForManagedObjectID.keys)
-        let filteredObjects = combinedSet.filter({ allObjectIDs.contains($0.objectID) })
+        let filteredObjects = combinedSet.filter { allObjectIDs.contains($0.objectID) }
         
         for object in filteredObjects {
             guard let actionsForObject = actionsForManagedObjectID[object.objectID] else { continue }
 
             for action in actionsForObject {
-                if action.state.contains(.Inserted) && insertedObjectsSet.contains(object) {
-                    action.completionBlock(object,.Inserted)
-                } else if action.state.contains(.Updated) && updatedObjectsSet.contains(object) {
-                    action.completionBlock(object,.Updated)
-                } else if action.state.contains(.Deleted) && deletedObjectsSet.contains(object) {
-                    action.completionBlock(object,.Deleted)
-                } else if action.state.contains(.Refreshed) && refreshedObjectsSet.contains(object) {
-                    action.completionBlock(object,.Refreshed)
+                if action.state.contains(.Inserted), insertedObjectsSet.contains(object) {
+                    action.completionBlock(object, .Inserted)
+                } else if action.state.contains(.Updated), updatedObjectsSet.contains(object) {
+                    action.completionBlock(object, .Updated)
+                } else if action.state.contains(.Deleted), deletedObjectsSet.contains(object) {
+                    action.completionBlock(object, .Deleted)
+                } else if action.state.contains(.Refreshed), refreshedObjectsSet.contains(object) {
+                    action.completionBlock(object, .Refreshed)
                 }
             }
         }
@@ -109,14 +110,13 @@ public class CoreDataContextObserver {
         } else {
             actionsForManagedObjectID[object.objectID] = [action]
         }
-        
     }
     
     public func unobserveObject(object: NSManagedObject, forState state: CoreDataContextObserverState = .All) {
         if state == .All {
             actionsForManagedObjectID.removeValue(forKey: object.objectID)
         } else if let actionsForObject = actionsForManagedObjectID[object.objectID] {
-            actionsForManagedObjectID[object.objectID] = actionsForObject.filter({ !$0.state.contains(state) })
+            actionsForManagedObjectID[object.objectID] = actionsForObject.filter { !$0.state.contains(state) }
         }
     }
     
