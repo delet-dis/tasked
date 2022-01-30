@@ -18,6 +18,7 @@ struct ListCellSubView: View {
         }.onTapGesture {
             viewModel.toggleItem()
         }
+        .animation(.default)
     }
 }
 
