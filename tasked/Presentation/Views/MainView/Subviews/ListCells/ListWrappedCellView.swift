@@ -42,8 +42,6 @@ struct ListWrappedCellView: View {
                         VStack {
                             if let processingViewModel = viewModel.listCellSubviewsViewModels[viewModelIndex] {
                                 ListCellSubView(viewModel: processingViewModel)
-                                    .padding(.bottom, 12)
-                                    .padding(.top, 12)
                             }
                         }
                     }
@@ -60,6 +58,9 @@ struct ListWrappedCellView: View {
             .padding(.top, -5)
         }
         .background((viewModel.toDoItem.associatedSubItems ?? []).capacity > 0 ? ColorPalette.activeListCellBackground : ColorPalette.inactiveListCellBackground)
+        .onDelete {
+            viewModel.deleteItem()
+        }
     }
 
     struct ListCellViewCombined_Previews: PreviewProvider {

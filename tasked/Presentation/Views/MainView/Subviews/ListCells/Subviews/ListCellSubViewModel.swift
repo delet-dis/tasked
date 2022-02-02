@@ -23,4 +23,10 @@ class ListCellSubViewModel: ObservableObject {
             }
         }
     }
+    
+    func deleteItem(){
+        if let toDoSubItemId = displayingItem.id {
+            DatabaseRepository.shared.deleteSubItemById(toDoSubItemId)
+        }
+    }
 }

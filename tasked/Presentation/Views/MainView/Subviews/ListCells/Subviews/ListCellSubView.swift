@@ -13,9 +13,15 @@ struct ListCellSubView: View {
             
             TaskTextView(taskText: viewModel.displayingItem.task, isActive: $viewModel.isActive)
                 .padding(.leading, 16)
-            
+                
             Spacer()
-        }.onTapGesture {
+        }
+        .padding(.bottom, 12)
+        .padding(.top, 12)
+        .onDelete {
+            viewModel.deleteItem()
+        }
+        .onTapGesture {
             viewModel.toggleItem()
         }
         .animation(.default)

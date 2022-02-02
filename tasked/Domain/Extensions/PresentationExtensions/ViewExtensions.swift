@@ -3,10 +3,11 @@ import SwiftUI
 struct Delete: ViewModifier {
     let action: () -> Void
     
-    @State var offset: CGSize = .zero
-    @State var initialOffset: CGSize = .zero
-    @State var contentWidth: CGFloat = 0.0
-    @State var willDeleteIfReleased = false
+    @State private var offset: CGSize = .zero
+    @State private var initialOffset: CGSize = .zero
+    @State private var contentWidth: CGFloat = 0.0
+    @State private var willDeleteIfReleased = false
+    @State private var isVisible: Bool = false
    
     func body(content: Content) -> some View {
         content
@@ -19,6 +20,7 @@ struct Delete: ViewModifier {
                             .foregroundColor(.white)
                             .font(.title2.bold())
                             .layoutPriority(-1)
+                            .offset(x: 20)
                     }.frame(width: -offset.width)
                         .offset(x: geometry.size.width)
                         .onAppear {
@@ -30,12 +32,14 @@ struct Delete: ViewModifier {
                                     delete()
                                 }
                         )
+                        .opacity(isVisible ? 1 : 0)
                 }
             )
             .offset(x: offset.width, y: 0)
             .gesture(
                 DragGesture()
                     .onChanged { gesture in
+                        isVisible = true
                         if gesture.translation.width + initialOffset.width <= 0 {
                             self.offset.width = gesture.translation.width + initialOffset.width
                         }
@@ -49,11 +53,14 @@ struct Delete: ViewModifier {
                     }
                     .onEnded { _ in
                         if offset.width < -deletionDistance {
+                            isVisible = false
                             delete()
                         } else if offset.width < -halfDeletionDistance {
+                            isVisible = true
                             offset.width = -tappableDeletionWidth
                             initialOffset.width = -tappableDeletionWidth
                         } else {
+                            isVisible = false
                             offset = .zero
                             initialOffset = .zero
                         }
@@ -65,6 +72,7 @@ struct Delete: ViewModifier {
     private func delete() {
         offset.width = -contentWidth
         action()
+        offset.width = 0
     }
     
     private func hapticFeedback() {
